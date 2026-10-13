@@ -1,4 +1,9 @@
+# Packages allowed to run install scripts (pnpm blocks all others).
+# esbuild and sharp download their platform-native binaries; unrs-resolver
+# is Tailwind CSS v4's native binding installer.
 allowBuilds:
+  esbuild: true
+  sharp: true
   unrs-resolver: true
 
 minimumReleaseAgeExclude:
@@ -7,8 +12,6 @@ minimumReleaseAgeExclude:
   - vitest@5.0.4
   - zod@4.6.7
 
-# unrs-resolver is Tailwind CSS v4's native binding installer; its postinstall
-# script downloads the platform binary and is required for Tailwind to work.
   - '@radix-ui/primitive@1.2.0'
   - '@radix-ui/react-arrow@1.1.17'
   - '@radix-ui/react-checkbox@1.4.0'
