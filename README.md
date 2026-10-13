@@ -124,9 +124,9 @@ git push -u origin main
    `.env.example` for each scope:
    - **Development:** `NEXT_PUBLIC_SITE_URL=http://localhost:3000`,
      `NEXT_PUBLIC_ALLOW_INDEXING=false`, flags `false`.
-   - **Preview:** `NEXT_PUBLIC_SITE_URL=` your preview URL pattern (e.g.
-     `https://akrostech-web-git-main-YOUR-TEAM.vercel.app`), `NEXT_PUBLIC_ALLOW_INDEXING=false`,
-     flags `false`. Use **test** keys for any integrations.
+   - **Preview:** `NEXT_PUBLIC_SITE_URL` can be left unset — the build falls back to the
+     deployment's own `*.vercel.app` URL. Set `NEXT_PUBLIC_ALLOW_INDEXING=false`, flags `false`. Use
+     **test** keys for any integrations.
    - **Production:** `NEXT_PUBLIC_SITE_URL=https://www.akrosstech.com`,
      `NEXT_PUBLIC_ALLOW_INDEXING=true` (only after the domain cutover — see step 12), flags stay
      `false` until the client approves real proof content. Use **live** keys.

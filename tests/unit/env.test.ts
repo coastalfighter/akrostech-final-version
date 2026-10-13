@@ -47,4 +47,36 @@ describe('parseEnv', () => {
       }),
     ).toThrow()
   })
+
+  it('falls back to the Vercel production domain when the site URL is unset', () => {
+    const env = parseEnv({
+      VERCEL_ENV: 'production',
+      VERCEL_PROJECT_PRODUCTION_URL: 'www.akrosstech.com',
+      VERCEL_URL: 'akrostech-abc123.vercel.app',
+    })
+    expect(env.NEXT_PUBLIC_SITE_URL).toBe('https://www.akrosstech.com')
+  })
+
+  it('falls back to the Vercel branch URL on preview builds', () => {
+    const env = parseEnv({
+      NEXT_PUBLIC_SITE_URL: '',
+      VERCEL_ENV: 'preview',
+      VERCEL_BRANCH_URL: 'akrostech-git-feature.vercel.app',
+      VERCEL_URL: 'akrostech-abc123.vercel.app',
+    })
+    expect(env.NEXT_PUBLIC_SITE_URL).toBe('https://akrostech-git-feature.vercel.app')
+  })
+
+  it('prefers an explicit site URL over Vercel system variables', () => {
+    const env = parseEnv({
+      NEXT_PUBLIC_SITE_URL: 'https://www.akrosstech.com',
+      VERCEL_ENV: 'preview',
+      VERCEL_URL: 'akrostech-abc123.vercel.app',
+    })
+    expect(env.NEXT_PUBLIC_SITE_URL).toBe('https://www.akrosstech.com')
+  })
+
+  it('still rejects a missing site URL outside Vercel', () => {
+    expect(() => parseEnv({})).toThrow()
+  })
 })

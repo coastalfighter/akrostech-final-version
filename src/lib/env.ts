@@ -4,7 +4,9 @@ import { z } from 'zod'
  * Environment validation. Runs at build time (imported by the root layout),
  * so the build fails fast when a required variable is missing or malformed.
  *
- * Only the site URL is strictly required to build. Service credentials
+ * Only the site URL is strictly required to build. On Vercel it falls back to
+ * the deployment's system URL when NEXT_PUBLIC_SITE_URL is unset, so Preview
+ * builds succeed without per-branch configuration. Service credentials
  * (Resend, Turnstile, Upstash, Blob, analytics) are validated lazily at
  * runtime by the code paths that use them, so Preview builds and local
  * development work before every integration is wired up.
@@ -78,8 +80,23 @@ const envSchema = z.object({
 
 export type Env = z.infer<typeof envSchema>
 
-export function parseEnv(input: unknown): Env {
-  return envSchema.parse(input)
+type RawEnv = Record<string, string | undefined>
+
+/**
+ * Fill NEXT_PUBLIC_SITE_URL from Vercel's system variables when it is unset:
+ * the production domain for Production builds, the deployment URL otherwise.
+ */
+export function withSiteUrlFallback(input: RawEnv): RawEnv {
+  if (trimBlankToUndefined(input.NEXT_PUBLIC_SITE_URL)) return input
+  const host =
+    input.VERCEL_ENV === 'production'
+      ? trimBlankToUndefined(input.VERCEL_PROJECT_PRODUCTION_URL)
+      : (trimBlankToUndefined(input.VERCEL_BRANCH_URL) ?? trimBlankToUndefined(input.VERCEL_URL))
+  return host ? { ...input, NEXT_PUBLIC_SITE_URL: `https://${host}` } : input
+}
+
+export function parseEnv(input: RawEnv): Env {
+  return envSchema.parse(withSiteUrlFallback(input))
 }
 
 function formatError(error: z.ZodError): string {
@@ -90,7 +107,7 @@ let cached: Env | null = null
 
 export function getEnv(): Env {
   if (cached) return cached
-  const result = envSchema.safeParse(process.env)
+  const result = envSchema.safeParse(withSiteUrlFallback(process.env))
   if (!result.success) {
     throw new Error(
       `Invalid environment configuration. Check .env.local against .env.example:\n${formatError(result.error)}`,
