@@ -84,16 +84,14 @@ export function ApplicationForm() {
   if (status === 'sent') {
     return (
       <div
-        className="border-line-dark bg-ink-800 rounded-[24px] border p-8 text-center md:p-12"
+        className="border-line bg-ink-2 rounded-[var(--radius-card)] border p-8 text-center md:p-12"
         role="status"
       >
-        <span className="bg-aurora-teal/15 text-aurora-teal mx-auto flex size-14 items-center justify-center rounded-full">
+        <span className="bg-lime/15 text-sage mx-auto flex size-14 items-center justify-center rounded-full">
           <Check aria-hidden="true" weight="bold" className="size-6" />
         </span>
-        <h2 className="font-display text-paper-50 mt-6 text-2xl font-semibold">
-          Application received
-        </h2>
-        <p className="mx-auto mt-3 max-w-md leading-relaxed text-mist-400">
+        <h2 className="font-display text-cream mt-6 text-2xl">Application received</h2>
+        <p className="text-fog mx-auto mt-3 max-w-md leading-relaxed">
           Thanks, {name.split(' ')[0]}. We review every application ourselves and reply to the ones
           that fit — usually within a week.
         </p>
@@ -105,7 +103,7 @@ export function ApplicationForm() {
     <form
       onSubmit={submit}
       noValidate
-      className="border-line-dark bg-ink-800 rounded-[24px] border p-6 md:p-10"
+      className="border-line bg-ink-2 rounded-[var(--radius-card)] border p-6 md:p-10"
     >
       <div className="grid gap-5 sm:grid-cols-2">
         <Field label="Your name" error={errors.name}>
@@ -148,14 +146,14 @@ export function ApplicationForm() {
             type="button"
             onClick={() => fileRef.current?.click()}
             className={cn(
-              'border-line-dark hover:border-indigo-glow flex w-full cursor-pointer items-center gap-4 rounded-[12px] border border-dashed px-4 py-5 text-left transition-colors',
-              errors.cv && 'border-signal-coral',
+              'border-line hover:border-lime flex w-full cursor-pointer items-center gap-4 rounded-[12px] border border-dashed px-4 py-5 text-left transition-colors',
+              errors.cv && 'border-coral',
             )}
           >
-            <UploadSimple aria-hidden="true" className="size-6 shrink-0 text-mist-400" />
-            <span className="text-[15px] text-mist-400">
+            <UploadSimple aria-hidden="true" className="text-fog size-6 shrink-0" />
+            <span className="text-fog text-[15px]">
               {cv ? (
-                <span className="text-paper-50 font-medium">{cv.name}</span>
+                <span className="text-cream font-medium">{cv.name}</span>
               ) : (
                 'Choose your CV file…'
               )}
@@ -196,14 +194,14 @@ export function ApplicationForm() {
           label="You can contact me about this application."
         />
         {errors.consent && (
-          <p role="alert" className="text-signal-coral mt-2 text-sm font-medium">
+          <p role="alert" className="text-coral mt-2 text-sm font-medium">
             {errors.consent}
           </p>
         )}
       </div>
       <TurnstileWidget onToken={setTurnstileToken} />
       {status === 'error' && (
-        <p role="alert" className="text-signal-coral mt-4 text-sm font-medium">
+        <p role="alert" className="text-coral mt-4 text-sm font-medium">
           {serverError}
         </p>
       )}

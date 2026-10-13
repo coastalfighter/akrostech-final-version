@@ -1,25 +1,21 @@
 import type { Metadata } from 'next'
+import { ArrowUpRight } from '@phosphor-icons/react/dist/ssr'
 import Link from 'next/link'
 import { CtaBand } from '@/components/sections/cta-band'
 import { PageHero } from '@/components/sections/page-hero'
-import { Card } from '@/components/ui/card'
+import { LinkCard } from '@/components/ui/card'
 import { Container, Section } from '@/components/ui/layout'
-import { Eyebrow } from '@/components/ui/typography'
 import { cmsInsightsByDate } from '@/lib/content'
-
-/**
- * Insights index — rendered from the CMS (Velite).
- */
+import { formatDate, tagLabel } from '@/lib/format'
 
 export const metadata: Metadata = {
   title: 'Insights — Guides for Buyers',
   description:
-    'Akrostech insights: plain-English guides on outsourcing costs, RPO, virtual assistants, and websites. Signal, not noise.',
+    'Akrostech insights: plain-English guides on outsourcing costs, RPO, virtual assistants and websites. Signal, not noise.',
 }
 
 export default function InsightsPage() {
-  const articles = cmsInsightsByDate
-  const [featured, ...rest] = articles
+  const [featured, ...rest] = cmsInsightsByDate
 
   return (
     <main>
@@ -27,62 +23,63 @@ export default function InsightsPage() {
         eyebrow="Insights"
         title={
           <>
-            Signal, <span className="font-serif-accent italic">not noise.</span>
+            Signal, <span className="accent">not noise.</span>
           </>
         }
-        lead="Guides for buyers, not brochureware. Every article answers one question completely — the question you\u2019d ask on a sales call."
-        variant="waveform"
+        lead="Guides for buyers, not brochureware. Every article answers one question completely — the question you’d ask on a sales call."
+        word="Insights"
         crumbs={[{ label: 'Insights' }]}
       />
-      <Section surface="dark" padding="compact">
+
+      <Section tone="ink" className="pt-16 md:pt-24">
         <Container>
           {featured && (
-            <>
-              <Eyebrow>Featured</Eyebrow>
-              <Card className="border-indigo-glow/30 mt-8">
-                <p className="text-aurora-teal font-mono text-xs tracking-[0.25em] uppercase">
-                  {featured.tags[0]}
+            <Link
+              href={`/insights/${featured.slug}`}
+              className="group/f bg-forest-deep relative grid overflow-hidden rounded-[var(--radius-card)] p-8 md:grid-cols-[1.3fr_1fr] md:gap-16 md:p-14"
+            >
+              <div>
+                <p className="text-sage flex flex-wrap items-center gap-3 text-xs tracking-[0.22em] uppercase">
+                  <span className="bg-lime text-ink rounded-full px-3 py-1">Featured</span>
+                  {tagLabel(featured.tags[0])}
                 </p>
-                <h2 className="font-display text-paper-50 mt-3 text-2xl font-semibold md:text-3xl">
-                  <Link
-                    href={`/insights/${featured.slug}`}
-                    className="hover:text-indigo-glow transition-colors"
-                  >
-                    {featured.title}
-                  </Link>
+                <h2 className="font-display group-hover/f:text-lime mt-10 text-4xl leading-[1.02] tracking-[-0.03em] text-balance transition-colors md:text-6xl">
+                  {featured.title}
                 </h2>
-                <p className="mt-3 max-w-[68ch] text-lg leading-relaxed text-mist-400">
-                  {featured.excerpt}
+              </div>
+              <div className="mt-8 flex flex-col justify-end md:mt-0">
+                <p className="text-cream/80 text-lg leading-relaxed">{featured.excerpt}</p>
+                <p className="border-cream/15 text-cream/70 mt-8 flex items-center justify-between gap-4 border-t pt-6 text-sm">
+                  <time dateTime={featured.date}>{formatDate(featured.date)}</time>
+                  <span className="bg-lime text-ink flex size-12 items-center justify-center rounded-full transition-transform duration-500 group-hover/f:rotate-45">
+                    <ArrowUpRight aria-hidden="true" weight="bold" className="size-5" />
+                  </span>
                 </p>
-              </Card>
-            </>
+              </div>
+            </Link>
           )}
-          <div className="mt-12">
-            <Eyebrow>All articles</Eyebrow>
-            <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {rest.map((article) => (
-                <Card key={article.slug} className="flex flex-col">
-                  <p className="text-aurora-teal font-mono text-xs tracking-[0.25em] uppercase">
-                    {article.tags[0]}
-                  </p>
-                  <h2 className="font-display text-paper-50 mt-3 text-xl font-semibold">
-                    <Link
-                      href={`/insights/${article.slug}`}
-                      className="hover:text-indigo-glow transition-colors"
-                    >
-                      {article.title}
-                    </Link>
-                  </h2>
-                  <p className="mt-2 flex-1 leading-relaxed text-mist-400">{article.excerpt}</p>
-                </Card>
-              ))}
-            </div>
+
+          <div className="mt-5 grid gap-5 md:grid-cols-2">
+            {rest.map((article) => (
+              <LinkCard
+                key={article.slug}
+                href={`/insights/${article.slug}`}
+                eyebrow={tagLabel(article.tags[0])}
+                title={article.title}
+                description={article.excerpt}
+              />
+            ))}
           </div>
         </Container>
       </Section>
+
       <CtaBand
-        title="Read less, ask more"
-        body="Articles answer the common questions. Your situation gets a conversation."
+        title={
+          <>
+            Read less, <span className="accent">ask more.</span>
+          </>
+        }
+        body="Articles answer the common questions. Your situation deserves a conversation."
       />
     </main>
   )

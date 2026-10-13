@@ -90,16 +90,14 @@ export function ContactForm({ defaultService }: { defaultService?: string }) {
   if (status === 'sent') {
     return (
       <div
-        className="border-graphite-900/10 rounded-[24px] border bg-white p-8 text-center md:p-12"
+        className="border-line bg-ink-2 rounded-[var(--radius-card)] border p-8 text-center md:p-12"
         role="status"
       >
-        <span className="bg-aurora-teal/15 text-aurora-teal mx-auto flex size-14 items-center justify-center rounded-full">
+        <span className="bg-lime/15 text-sage mx-auto flex size-14 items-center justify-center rounded-full">
           <Check aria-hidden="true" weight="bold" className="size-6" />
         </span>
-        <h2 className="font-display text-graphite-900 mt-6 text-2xl font-semibold">
-          Message received
-        </h2>
-        <p className="mx-auto mt-3 max-w-md leading-relaxed text-slate-600">
+        <h2 className="font-display text-cream mt-6 text-2xl">Message received</h2>
+        <p className="text-fog mx-auto mt-3 max-w-md leading-relaxed">
           Thanks, {values.name.split(' ')[0]}. We reply fast — usually within one business day. If
           it&apos;s urgent, call +1 (332) 287-0846.
         </p>
@@ -111,8 +109,7 @@ export function ContactForm({ defaultService }: { defaultService?: string }) {
     <form
       onSubmit={submit}
       noValidate
-      className="border-graphite-900/10 rounded-[24px] border bg-white p-6 md:p-10"
-      data-surface="light"
+      className="border-line bg-ink-2 rounded-[var(--radius-card)] border p-6 md:p-10"
     >
       <div className="grid gap-5 sm:grid-cols-2">
         <Field label="Your name" error={errors.name}>
@@ -146,7 +143,6 @@ export function ContactForm({ defaultService }: { defaultService?: string }) {
             onValueChange={(v) => set('service', v)}
             placeholder="What can we help with?"
             options={SERVICE_OPTIONS.map((s) => ({ value: s, label: s }))}
-            surface="light"
           />
         </Field>
       </div>
@@ -173,14 +169,14 @@ export function ContactForm({ defaultService }: { defaultService?: string }) {
           label="You can email me back about my inquiry."
         />
         {errors.consent && (
-          <p role="alert" className="text-signal-coral mt-2 text-sm font-medium">
+          <p role="alert" className="text-coral mt-2 text-sm font-medium">
             {errors.consent}
           </p>
         )}
       </div>
       <TurnstileWidget onToken={setTurnstileToken} />
       {status === 'error' && (
-        <p role="alert" className="text-signal-coral mt-4 text-sm font-medium">
+        <p role="alert" className="text-coral mt-4 text-sm font-medium">
           {serverError}
         </p>
       )}

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
+import { CtaBand } from '@/components/sections/cta-band'
 import { FaqAccordion } from '@/components/sections/faq-accordion'
 import { PageHero } from '@/components/sections/page-hero'
-import { CtaBand } from '@/components/sections/cta-band'
 import { JsonLd, faqJsonLd } from '@/components/seo/json-ld'
 import { Container, Section } from '@/components/ui/layout'
 import { Eyebrow, Lead } from '@/components/ui/typography'
@@ -21,31 +21,33 @@ export default function FaqPage() {
         eyebrow="FAQ"
         title={
           <>
-            Ask <span className="font-serif-accent italic">anything.</span>
+            Ask <span className="accent">anything.</span>
           </>
         }
-        lead="The questions every prospect asks, answered the way we\u2019d answer them on a call."
-        variant="default"
+        lead="The questions every prospect asks, answered the way we’d answer them on a call."
+        word="Questions"
         crumbs={[{ label: 'FAQ' }]}
       />
-      <Section surface="light">
+      <Section tone="ink" className="pt-16 md:pt-24">
         <Container>
-          <div className="grid gap-10 lg:grid-cols-[1fr_1.6fr]">
-            <div>
-              <Eyebrow>Common questions</Eyebrow>
-              <Lead className="mt-4">
+          <div className="grid gap-12 lg:grid-cols-[0.7fr_1.3fr] lg:gap-20">
+            <div className="lg:sticky lg:top-32 lg:self-start">
+              <Eyebrow>Working with us</Eyebrow>
+              <Lead className="mt-6">
                 Service-specific questions live on each service page. These are the ones about
-                working with us, full stop.
+                working with Akrostech, full stop.
               </Lead>
             </div>
-            <FaqAccordion
-              items={globalFaqs.map((f) => ({ question: f.question, answer: f.answer }))}
-            />
+            <FaqAccordion items={globalFaqs} />
           </div>
         </Container>
       </Section>
       <CtaBand
-        title="Still curious?"
+        title={
+          <>
+            Still <span className="accent">curious?</span>
+          </>
+        }
         body="Some questions deserve a human. Thirty minutes, no commitment."
       />
     </main>

@@ -6,6 +6,6 @@ export const contentType = 'image/png'
 export default function OpenGraphImage() {
   return ogImage({
     eyebrow: 'Akrostech Consulting LLC',
-    title: 'Your team, across every hour.',
+    title: 'Your team, on your clock.',
   })
 }

@@ -30,24 +30,26 @@ export function FaqAccordion({
     <Accordion.Root
       type={type}
       collapsible={type === 'single' ? true : undefined}
-      className={cn('divide-graphite-900/10 border-graphite-900/10 divide-y border-y', className)}
+      className={cn('divide-line border-line divide-y border-y', className)}
     >
       {items.map((item, i) => {
         const value = item.id ?? `faq-${i}`
         return (
           <Accordion.Item key={value} value={value} id={item.id} className="scroll-mt-32">
             <Accordion.Header>
-              <Accordion.Trigger className="group flex w-full cursor-pointer items-center justify-between gap-6 py-5 text-left">
-                <span className="font-display text-graphite-900 text-lg font-semibold">
+              <Accordion.Trigger className="group flex w-full cursor-pointer items-center justify-between gap-6 py-7 text-left">
+                <span className="font-display text-cream group-hover:text-lime text-xl tracking-[-0.01em] transition-colors md:text-2xl">
                   {item.question}
                 </span>
-                <span className="border-graphite-900/15 text-graphite-900 flex size-9 shrink-0 items-center justify-center rounded-full border transition-transform duration-300 group-data-[state=open]:rotate-45">
+                <span className="border-line text-cream group-data-[state=open]:border-lime group-data-[state=open]:bg-lime group-data-[state=open]:text-ink flex size-11 shrink-0 items-center justify-center rounded-full border transition-[transform,background-color,color,border-color] duration-300 group-data-[state=open]:rotate-45">
                   <Plus aria-hidden="true" weight="bold" className="size-4" />
                 </span>
               </Accordion.Trigger>
             </Accordion.Header>
             <Accordion.Content className="overflow-hidden data-[state=closed]:animate-[accordion-up_200ms] data-[state=open]:animate-[accordion-down_200ms]">
-              <div className="max-w-[68ch] pb-6 leading-relaxed text-slate-600">{item.answer}</div>
+              <div className="text-fog max-w-[64ch] pb-8 text-[17px] leading-relaxed">
+                {item.answer}
+              </div>
             </Accordion.Content>
           </Accordion.Item>
         )

@@ -23,14 +23,14 @@ const SelectTrigger = React.forwardRef<
       ref={ref}
       aria-invalid={!!error}
       className={cn(
-        'border-line-dark bg-ink-950 text-paper-50 hover:border-indigo-glow/50 focus:border-indigo-glow data-[surface=light]:border-graphite-900/20 data-[surface=light]:text-graphite-900 aria-[invalid=true]:border-signal-coral flex min-h-[44px] w-full cursor-pointer items-center justify-between gap-2 rounded-[12px] border px-4 py-3 text-left transition-colors duration-150 focus:outline-none data-[placeholder]:text-mist-400/60 data-[surface=light]:bg-white',
+        'border-line bg-ink text-cream hover:border-cream/40 focus:border-lime aria-[invalid=true]:border-coral data-[placeholder]:text-mute flex min-h-[44px] w-full cursor-pointer items-center justify-between gap-2 rounded-[12px] border px-4 py-3 text-left transition-colors duration-150 focus:outline-none',
         className,
       )}
       {...props}
     >
       {children}
       <SelectPrimitive.Icon asChild>
-        <CaretDown aria-hidden="true" weight="bold" className="size-4 shrink-0 text-mist-400" />
+        <CaretDown aria-hidden="true" weight="bold" className="text-fog size-4 shrink-0" />
       </SelectPrimitive.Icon>
     </SelectPrimitive.Trigger>
   )
@@ -46,7 +46,7 @@ const SelectContent = React.forwardRef<
         ref={ref}
         position={position}
         className={cn(
-          'glass z-50 max-h-72 min-w-[var(--radix-select-trigger-width)] overflow-hidden rounded-[12px] p-1 data-[surface=light]:bg-white/95',
+          'border-line bg-ink-3 z-50 max-h-72 min-w-[var(--radix-select-trigger-width)] overflow-hidden rounded-[12px] border p-1',
           className,
         )}
         {...props}
@@ -65,14 +65,14 @@ const SelectItem = React.forwardRef<
     <SelectPrimitive.Item
       ref={ref}
       className={cn(
-        'text-paper-50 data-[highlighted]:bg-akros-indigo/25 data-[surface=light]:text-graphite-900 data-[surface=light]:data-[highlighted]:bg-akros-indigo/10 relative flex cursor-pointer items-center justify-between gap-2 rounded-[8px] px-3 py-2.5 text-[15px] outline-none select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+        'text-cream data-[highlighted]:bg-cream/10 relative flex cursor-pointer items-center justify-between gap-2 rounded-[8px] px-3 py-2.5 text-[15px] outline-none select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
         className,
       )}
       {...props}
     >
       <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
       <SelectPrimitive.ItemIndicator>
-        <Check aria-hidden="true" weight="bold" className="text-aurora-teal size-4" />
+        <Check aria-hidden="true" weight="bold" className="text-sage size-4" />
       </SelectPrimitive.ItemIndicator>
     </SelectPrimitive.Item>
   )

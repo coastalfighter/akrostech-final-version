@@ -1,15 +1,15 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { MDXContent } from '@/components/mdx/mdx-content'
 import { CtaBand } from '@/components/sections/cta-band'
 import { PageHero } from '@/components/sections/page-hero'
 import { JsonLd, articleJsonLd, breadcrumbJsonLd } from '@/components/seo/json-ld'
-import { Card } from '@/components/ui/card'
+import { LinkCard } from '@/components/ui/card'
 import { Container, Section } from '@/components/ui/layout'
-import { Eyebrow } from '@/components/ui/typography'
+import { SectionHeader } from '@/components/ui/typography'
 import { cmsGetInsight, cmsInsightsByDate } from '@/lib/content'
 import { env } from '@/lib/env'
+import { formatDate, tagLabel } from '@/lib/format'
 
 /**
  * Insight article pages — rendered from the CMS (Velite).
@@ -35,22 +35,13 @@ export async function generateMetadata({
   }
 }
 
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
-}
-
-const AUTHOR_NAMES: Record<string, string> = {
-  jennifer: 'Jennifer',
-  'gaurang-shukla': 'Gaurang Shukla',
-}
-
-const AUTHOR_ROLES: Record<string, string> = {
-  jennifer: 'Sales Lead, Akrostech Consulting',
-  'gaurang-shukla': 'Founder, Akrostech Consulting',
+const AUTHORS: Record<string, { name: string; role: string; initials: string }> = {
+  jennifer: { name: 'Jennifer', role: 'Sales Lead, Akrostech Consulting', initials: 'J' },
+  'gaurang-shukla': {
+    name: 'Gaurang Shukla',
+    role: 'Founder, Akrostech Consulting',
+    initials: 'GS',
+  },
 }
 
 export default async function InsightArticlePage({
@@ -63,7 +54,11 @@ export default async function InsightArticlePage({
   if (!insight) notFound()
 
   const related = cmsInsightsByDate.filter((i) => i.slug !== slug).slice(0, 2)
-  const authorName = AUTHOR_NAMES[insight.author] ?? insight.author
+  const author = AUTHORS[insight.author] ?? {
+    name: insight.author,
+    role: 'Akrostech Consulting',
+    initials: insight.author.charAt(0).toUpperCase(),
+  }
   const siteUrl = env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, '')
 
   return (
@@ -76,7 +71,7 @@ export default async function InsightArticlePage({
             title: insight.title,
             description: insight.description,
             date: insight.date,
-            authorName,
+            authorName: author.name,
           }),
           breadcrumbJsonLd(siteUrl, [
             { label: 'Insights', href: '/insights' },
@@ -85,51 +80,59 @@ export default async function InsightArticlePage({
         ]}
       />
       <PageHero
-        eyebrow={insight.tags[0] ?? 'Insights'}
+        eyebrow={tagLabel(insight.tags[0])}
         title={insight.title}
         lead={insight.excerpt}
-        variant="waveform"
+        size="md"
         crumbs={[{ label: 'Insights', href: '/insights' }, { label: insight.title }]}
       >
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[15px] text-mist-400">
-          <span>
-            By <span className="text-paper-50 font-medium">{authorName}</span>
-            {AUTHOR_ROLES[insight.author] && (
-              <span className="text-mist-400"> · {AUTHOR_ROLES[insight.author]}</span>
-            )}
+        <div className="flex items-center gap-4">
+          <span
+            aria-hidden="true"
+            className="bg-forest font-display text-lime flex size-12 items-center justify-center rounded-full text-lg"
+          >
+            {author.initials}
           </span>
-          <time dateTime={insight.date}>{formatDate(insight.date)}</time>
+          <div className="text-[15px]">
+            <p>
+              By <span className="text-cream font-medium">{author.name}</span>
+              <span className="text-fog"> · {author.role}</span>
+            </p>
+            <time dateTime={insight.date} className="text-fog">
+              {formatDate(insight.date)}
+            </time>
+          </div>
         </div>
       </PageHero>
 
-      <Section surface="dark" padding="compact">
+      <Section tone="ink" padding="compact" className="pt-0 md:pt-0">
         <Container>
-          <article className="mx-auto max-w-[72ch]">
+          <article className="border-line mx-auto max-w-[70ch] border-t pt-6">
             <MDXContent code={insight.body} />
           </article>
         </Container>
       </Section>
 
       {related.length > 0 && (
-        <Section surface="dark" padding="compact">
+        <Section tone="raised" padding="compact">
           <Container>
-            <Eyebrow>Keep reading</Eyebrow>
-            <div className="mt-8 grid gap-4 md:grid-cols-2">
+            <SectionHeader
+              eyebrow="Keep reading"
+              title={
+                <>
+                  More <span className="accent">insights.</span>
+                </>
+              }
+            />
+            <div className="mt-12 grid gap-5 md:grid-cols-2">
               {related.map((article) => (
-                <Card key={article.slug} className="flex flex-col">
-                  <p className="text-aurora-teal font-mono text-xs tracking-[0.25em] uppercase">
-                    {article.tags[0]}
-                  </p>
-                  <h2 className="font-display text-paper-50 mt-3 text-xl font-semibold">
-                    <Link
-                      href={`/insights/${article.slug}`}
-                      className="hover:text-indigo-glow transition-colors"
-                    >
-                      {article.title}
-                    </Link>
-                  </h2>
-                  <p className="mt-2 flex-1 leading-relaxed text-mist-400">{article.excerpt}</p>
-                </Card>
+                <LinkCard
+                  key={article.slug}
+                  href={`/insights/${article.slug}`}
+                  eyebrow={tagLabel(article.tags[0])}
+                  title={article.title}
+                  description={article.excerpt}
+                />
               ))}
             </div>
           </Container>
@@ -137,8 +140,12 @@ export default async function InsightArticlePage({
       )}
 
       <CtaBand
-        title="Turn reading into doing"
-        body="Thirty minutes. We\u2019ll map what you read here onto your situation."
+        title={
+          <>
+            Turn reading <span className="accent">into doing.</span>
+          </>
+        }
+        body="Thirty minutes. We’ll map what you read here onto your situation."
       />
     </main>
   )

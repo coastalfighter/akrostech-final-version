@@ -28,39 +28,50 @@ function getMDXComponent(code: string) {
 }
 
 const components: MDXComponents = {
+  // The page hero owns the single h1; drop any h1 inside the MDX body.
+  h1: () => null,
   h2: (props) => (
     <h2
-      className="font-display text-paper-50 mt-12 text-3xl font-bold tracking-[-0.01em]"
+      className="font-display text-cream mt-16 text-3xl leading-[1.1] tracking-[-0.025em] md:text-4xl"
       {...props}
     />
   ),
   h3: (props) => (
-    <h3 className="font-display text-paper-50 mt-8 text-2xl font-semibold" {...props} />
+    <h3 className="font-display text-cream mt-10 text-2xl tracking-[-0.015em]" {...props} />
   ),
-  p: (props) => <p className="mt-5 leading-[1.75] text-mist-400" {...props} />,
+  p: (props) => <p className="text-cream/80 mt-5 text-[18px] leading-[1.75]" {...props} />,
   a: (props) => (
     <a
-      className="text-indigo-glow decoration-indigo-glow/40 hover:text-paper-50 font-medium underline underline-offset-4 transition-colors"
+      className="text-lime decoration-lime/40 hover:text-cream font-medium underline underline-offset-4 transition-colors"
       {...props}
     />
   ),
-  ul: (props) => <ul className="mt-5 list-disc space-y-2.5 pl-6 text-mist-400" {...props} />,
-  ol: (props) => <ol className="mt-5 list-decimal space-y-2.5 pl-6 text-mist-400" {...props} />,
+  ul: (props) => (
+    <ul
+      className="text-cream/80 marker:text-lime mt-5 list-disc space-y-2.5 pl-6 text-[18px]"
+      {...props}
+    />
+  ),
+  ol: (props) => (
+    <ol
+      className="text-cream/80 marker:text-lime mt-5 list-decimal space-y-2.5 pl-6 text-[18px]"
+      {...props}
+    />
+  ),
   li: (props) => <li className="leading-[1.7]" {...props} />,
   blockquote: (props) => (
     <blockquote
-      className="border-indigo-glow text-paper-50 mt-6 border-l-2 pl-5 text-lg leading-relaxed italic"
+      className="border-lime font-display text-cream mt-8 border-l-2 pl-6 text-2xl leading-snug italic"
       {...props}
     />
   ),
-  strong: (props) => <strong className="text-paper-50 font-semibold" {...props} />,
+  strong: (props) => <strong className="text-cream font-semibold" {...props} />,
   code: (props) => (
-    <code
-      className="bg-ink-800 text-harvest-gold rounded px-1.5 py-0.5 font-mono text-[0.85em]"
-      {...props}
-    />
+    <code className="bg-ink-2 text-lime rounded px-1.5 py-0.5 text-[0.85em]" {...props} />
   ),
-  hr: (props) => <hr aria-hidden="true" className="meridian-line my-10" {...props} />,
+  hr: (props) => (
+    <hr aria-hidden="true" className="border-line my-12 border-0 border-t" {...props} />
+  ),
 }
 
 export function MDXContent({ code }: { code: string }) {

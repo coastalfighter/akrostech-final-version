@@ -2,50 +2,30 @@ import { LinkedinLogo } from '@phosphor-icons/react/dist/ssr'
 import Link from 'next/link'
 import { CookieSettingsLink } from '@/components/consent/cookie-settings-link'
 import { Container } from '@/components/ui/layout'
+import { siteConfig } from '@/config/site'
+import { LEGAL_NAV, NAV, SECONDARY_NAV, SERVICE_NAV } from './nav'
 
 /**
- * Site footer — NAP, service links (in the required order), company links,
- * legal links, newsletter teaser (full form ships in M5), LinkedIn.
+ * Site footer — a closing invitation, link columns (services in the required
+ * order), NAP, legal links, and an oversized wordmark sign-off.
  */
 
-const SERVICES = [
-  { label: 'Website Development', href: '/services/website-development' },
-  { label: 'Recruitment Process Outsourcing', href: '/services/recruitment-process-outsourcing' },
-  { label: 'Virtual Assistance', href: '/services/virtual-assistance' },
-  { label: 'Accounting Outsourcing', href: '/services/accounting-outsourcing' },
-  { label: 'Legal Process Outsourcing', href: '/services/legal-process-outsourcing' },
-]
-
-const COMPANY = [
-  { label: 'How it works', href: '/how-it-works' },
-  { label: 'Pricing', href: '/pricing' },
-  { label: 'Industries', href: '/industries' },
-  { label: 'About', href: '/about' },
-  { label: 'Careers', href: '/careers' },
-  { label: 'Insights', href: '/insights' },
-  { label: 'FAQ', href: '/faq' },
-  { label: 'Contact', href: '/contact' },
-]
-
-const LEGAL = [
-  { label: 'Privacy Policy', href: '/privacy-policy' },
-  { label: 'Terms of Service', href: '/terms' },
-  { label: 'Cookie Policy', href: '/cookie-policy' },
-  { label: 'SMS Terms', href: '/sms-terms' },
-]
-
-function LinkList({ title, links }: { title: string; links: { label: string; href: string }[] }) {
+function LinkList({
+  title,
+  links,
+}: {
+  title: string
+  links: readonly { label: string; href: string }[]
+}) {
   return (
     <nav aria-label={title}>
-      <h2 className="font-mono text-xs font-medium tracking-[0.25em] text-mist-400 uppercase">
-        {title}
-      </h2>
-      <ul className="mt-4 space-y-2.5">
+      <h2 className="text-sage text-xs font-medium tracking-[0.22em] uppercase">{title}</h2>
+      <ul className="mt-5 space-y-3">
         {links.map((link) => (
           <li key={link.href}>
             <Link
               href={link.href}
-              className="hover:text-paper-50 text-[15px] text-mist-400 transition-colors duration-150"
+              className="text-cream/75 hover:text-lime text-[15px] transition-colors duration-200"
             >
               {link.label}
             </Link>
@@ -57,62 +37,72 @@ function LinkList({ title, links }: { title: string; links: { label: string; hre
 }
 
 export function SiteFooter() {
+  const year = new Date().getFullYear()
   return (
-    <footer className="border-line-dark bg-ink-950 border-t" data-surface="dark">
+    <footer className="border-line bg-ink relative overflow-hidden border-t">
       <Container>
-        <div className="grid gap-10 py-16 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+        <div className="grid gap-12 py-20 sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1fr]">
           <div>
-            <p className="font-display text-paper-50 text-2xl font-bold">
-              Akrostech
-              <span aria-hidden="true" className="text-indigo-glow">
-                .
-              </span>
-            </p>
-            <p className="mt-3 max-w-xs leading-relaxed text-mist-400">
-              Your team, across every hour. Dedicated offshore professionals and a web studio,
-              working your U.S. hours.
-            </p>
-            <address className="mt-6 text-[15px] leading-relaxed text-mist-400 not-italic">
-              Akrostech Consulting LLC
+            <address className="text-cream/75 text-[15px] leading-relaxed not-italic">
+              {siteConfig.legalName}
               <br />
-              1207 Delaware Ave, Unit 2877
+              {siteConfig.address.street}
               <br />
-              Wilmington, DE 19806, USA
-              <br />
-              <a
-                href="tel:+13322870846"
-                className="hover:text-paper-50 mt-2 inline-block transition-colors"
-              >
-                +1 (332) 287-0846
-              </a>
+              {siteConfig.address.city}, {siteConfig.address.state} {siteConfig.address.zip},{' '}
+              {siteConfig.address.country}
             </address>
             <a
-              href="https://www.linkedin.com/company/akrostech-consulting"
+              href={siteConfig.phoneHref}
+              className="tnum font-display hover:text-lime mt-5 block text-2xl transition-colors"
+            >
+              {siteConfig.phone}
+            </a>
+            <a
+              href={siteConfig.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-paper-50 mt-6 inline-flex items-center gap-2 text-mist-400 transition-colors"
               aria-label="Akrostech Consulting on LinkedIn (opens in a new tab)"
+              className="text-cream/75 hover:text-lime mt-6 inline-flex items-center gap-2 text-[15px] transition-colors"
             >
-              <LinkedinLogo aria-hidden="true" weight="duotone" className="size-6" />
-              <span className="text-[15px]">LinkedIn</span>
+              <LinkedinLogo aria-hidden="true" weight="fill" className="size-5" />
+              LinkedIn
             </a>
           </div>
-          <LinkList title="Services" links={SERVICES} />
-          <LinkList title="Company" links={COMPANY} />
-          <LinkList title="Legal" links={LEGAL} />
+          <LinkList title="Services" links={SERVICE_NAV} />
+          <LinkList title="Company" links={[...NAV.slice(1), ...SECONDARY_NAV]} />
+          <LinkList title="Legal" links={LEGAL_NAV} />
         </div>
-        <div className="border-line-dark flex flex-col items-start justify-between gap-3 border-t py-6 sm:flex-row sm:items-center">
-          <p className="text-sm text-mist-400">
-            © 2026 Akrostech Consulting LLC. All rights reserved.
+
+        <div className="border-line text-fog flex flex-col items-start justify-between gap-4 border-t py-7 text-sm sm:flex-row sm:items-center">
+          <p>
+            © {year} {siteConfig.legalName}. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
             <CookieSettingsLink />
-            <p className="font-mono text-xs tracking-[0.2em] text-mist-400 uppercase">
-              Wilmington · India
-            </p>
+            <p className="tracking-[0.18em] uppercase">Wilmington · India</p>
           </div>
         </div>
       </Container>
+
+      {/* Oversized sign-off. SVG text scales with the viewport and, being
+          decorative, stays out of the accessibility tree and contrast checks. */}
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 1000 200"
+        className="pointer-events-none -mb-[1.5%] block w-full select-none"
+      >
+        <text
+          x="500"
+          y="172"
+          textAnchor="middle"
+          textLength="960"
+          lengthAdjust="spacingAndGlyphs"
+          className="fill-forest font-display"
+          fontSize="230"
+        >
+          akrostech
+        </text>
+      </svg>
     </footer>
   )
 }

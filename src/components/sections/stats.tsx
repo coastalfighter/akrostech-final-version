@@ -45,11 +45,11 @@ function StatItem({ stat, active }: { stat: Stat; active: boolean }) {
   const formatted = display.toFixed(stat.decimals ?? 0)
   return (
     <div className="text-center">
-      <p className="tnum font-display text-paper-50 text-5xl font-bold md:text-6xl">
+      <p className="tnum font-display text-cream text-5xl md:text-6xl">
         {formatted}
-        {stat.suffix && <span className="text-indigo-glow">{stat.suffix}</span>}
+        {stat.suffix && <span className="text-lime">{stat.suffix}</span>}
       </p>
-      <p className="mt-2 text-mist-400">{stat.label}</p>
+      <p className="text-fog mt-2">{stat.label}</p>
     </div>
   )
 }

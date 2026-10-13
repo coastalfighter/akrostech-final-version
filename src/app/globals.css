@@ -1,64 +1,60 @@
 @import 'tailwindcss';
 
 /*
- * Meridian design tokens (Section 6 of the brief) + motion tokens (Section 7).
- * Tailwind v4 CSS-first: every --color-* / --font-* token becomes a utility
- * (bg-ink-950, text-mist-400, font-display, …).
+ * Akrostech design tokens.
+ *
+ * A dark, editorial system: near-black canvas, deep forest-green surfaces,
+ * warm cream type, and one electric lime accent reserved for actions and
+ * highlights. Tailwind v4 CSS-first — every token below becomes a utility
+ * (bg-ink, text-cream, border-line, font-display, …).
  */
 @theme {
   /* ——— Color ——— */
-  --color-ink-950: #070b16;
-  --color-ink-800: #111832;
-  --color-line-dark: #232b45;
-  --color-paper-50: #f6f4ef;
-  --color-graphite-900: #12141c;
-  --color-mist-400: #9aa3b8;
-  --color-slate-600: #535a6e;
-  --color-akros-indigo: #5b5cf6;
-  --color-indigo-glow: #8b8cff;
-  --color-sunrise-amber: #ffb547;
-  --color-aurora-teal: #2dd4bf;
-  --color-signal-coral: #ff6b5b;
+  --color-ink: #0a0b0a;
+  --color-ink-2: #111312;
+  --color-ink-3: #181b19;
+  --color-line: #2a2e2b;
+  --color-line-strong: #3b403c;
 
-  /* Service accents, in the required service order */
-  --color-accent-web: #5b5cf6;
-  --color-accent-rpo: #ff6b5b;
-  --color-accent-va: #2dd4bf;
-  --color-accent-acct: #a3e635;
-  --color-accent-legal: #f5c451;
+  --color-cream: #f2ede3;
+  --color-fog: #a9afa9;
+  --color-mute: #7d847e;
 
-  /* ——— Type (wired to next/font variables in layout) ——— */
-  --font-display: var(--font-display, 'Bricolage Grotesque', system-ui, sans-serif);
-  --font-serif-accent: var(--font-serif-accent, 'Instrument Serif', Georgia, serif);
-  --font-sans: var(--font-sans, 'Geist Sans', system-ui, sans-serif);
-  --font-mono: var(--font-mono, 'Geist Mono', ui-monospace, monospace);
+  --color-forest: #1b4537;
+  --color-forest-deep: #112c23;
+  --color-forest-bright: #2b6b55;
+  --color-sage: #9cc0ad;
+
+  --color-lime: #c8f169;
+  --color-lime-deep: #a9d743;
+  --color-coral: #ff8a6b;
+
+  /* ——— Type ——— */
+  --font-display: var(--font-display), 'Fraunces', Georgia, serif;
+  --font-sans: var(--font-sans), 'Space Grotesk', system-ui, sans-serif;
 
   /* ——— Radii ——— */
-  --radius-sm: 6px;
-  --radius-md: 12px;
-  --radius-lg: 20px;
-  --radius-xl: 32px;
+  --radius-card: 28px;
+  --radius-arch: 999px 999px 28px 28px;
 
-  /* ——— Motion (Section 7) ——— */
+  /* ——— Motion ——— */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
-  --dur-fast: 150ms;
-  --dur-base: 400ms;
-  --dur-slow: 900ms;
-}
 
-:root {
-  /* The Meridian gradient — hero light arcs, closing CTA band, active states only. */
-  --meridian-gradient: linear-gradient(120deg, #5b5cf6 0%, #a855f7 50%, #ffb547 100%);
+  /* ——— Animations (used as animate-* utilities) ——— */
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-marquee-reverse: marquee 40s linear infinite reverse;
+  --animate-spin-slow: spin 18s linear infinite;
 }
 
 html {
   scroll-behavior: smooth;
+  background-color: var(--color-ink);
 }
 
 body {
-  background-color: var(--color-ink-950);
-  color: var(--color-paper-50);
+  background-color: var(--color-ink);
+  color: var(--color-cream);
   font-family: var(--font-sans);
   font-size: 17px;
   line-height: 1.6;
@@ -67,61 +63,90 @@ body {
 }
 
 ::selection {
-  background: var(--color-akros-indigo);
-  color: #fff;
+  background: var(--color-lime);
+  color: var(--color-ink);
 }
 
-/*
- * Visible focus: 2px ring + 2px offset. Amber on dark, indigo on light.
- * Components set data-surface="dark"|"light" (or inherit from section).
- */
 :focus-visible {
-  outline: 2px solid var(--color-sunrise-amber);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-[data-surface='light'] :focus-visible {
-  outline-color: var(--color-akros-indigo);
+  outline: 2px solid var(--color-lime);
+  outline-offset: 3px;
+  border-radius: 6px;
 }
 
-/* ——— Brand utilities ——— */
+/* ——— Typography helpers ——— */
 
-/* The Meridian line: the brand's recurring signature divider. */
-.meridian-line {
-  height: 1px;
-  background: var(--meridian-gradient);
-  border: 0;
+/* Display serif with the soft optical axes dialled in. */
+.font-display {
+  font-variation-settings:
+    'SOFT' 100,
+    'WONK' 0;
 }
 
-/* Secondary button: Meridian gradient sweeps around the border on hover. */
-@property --sweep-angle {
-  syntax: '<angle>';
-  initial-value: 0deg;
-  inherits: false;
+/* Hero-scale headline: fluid from phone to wide desktop. */
+.display-xl {
+  font-family: var(--font-display);
+  font-size: clamp(3.25rem, 11vw, 11rem);
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+  font-weight: 400;
 }
-@keyframes border-sweep {
-  to {
-    --sweep-angle: 360deg;
-  }
+
+.display-lg {
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 6.5vw, 6rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-weight: 400;
 }
-/* FAQ accordion open/close. */
-@keyframes accordion-down {
-  from {
-    height: 0;
-  }
-  to {
-    height: var(--radix-accordion-content-height);
-  }
+
+/* Italic accent words inside headlines. */
+.accent {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  color: var(--color-sage);
+  font-variation-settings:
+    'SOFT' 100,
+    'WONK' 1;
 }
-@keyframes accordion-up {
-  from {
-    height: var(--radix-accordion-content-height);
-  }
-  to {
-    height: 0;
-  }
+
+/* Hollow outline type for oversized decorative words. */
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in oklab, var(--color-cream) 35%, transparent);
 }
-/* Industries marquee on the home page. */
+
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ——— Decorative surfaces ——— */
+
+/* Fine grid used behind heroes. */
+.grid-lines {
+  background-image:
+    linear-gradient(
+      to right,
+      color-mix(in oklab, var(--color-cream) 6%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--color-cream) 6%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 96px 96px;
+}
+
+/* Soft grain to keep large flat fields from looking digital. */
+.grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+}
+
+/* ——— Keyframes ——— */
+
 @keyframes marquee {
   from {
     transform: translateX(0);
@@ -130,84 +155,84 @@ body {
     transform: translateX(-50%);
   }
 }
-.btn-secondary {
-  position: relative;
-}
-.btn-secondary::after {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  padding: 1px;
-  background: conic-gradient(from var(--sweep-angle), #5b5cf6, #a855f7, #ffb547, #5b5cf6);
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity: 0;
-  transition: opacity var(--dur-fast) var(--ease-out-expo);
-  pointer-events: none;
-}
-.btn-secondary:hover::after,
-.btn-secondary:focus-visible::after {
-  opacity: 1;
-  animation: border-sweep 1.4s linear infinite;
-}
-@media (prefers-reduced-motion: reduce) {
-  .btn-secondary:hover::after,
-  .btn-secondary:focus-visible::after {
-    animation: none;
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
   }
 }
 
-/* Subtle film grain overlay (2–3% opacity). Apply to a fixed full-page layer. */
-.film-grain {
-  pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
-  opacity: 0.025;
-}
-
-/* Frosted glass — floating header and modal surfaces only. */
-.glass {
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  background: color-mix(in srgb, var(--color-ink-950) 70%, transparent);
-  border: 1px solid var(--color-line-dark);
-}
-
-/* Fluid display headline scale per the brief: clamp(2.75rem, 6vw + 1rem, 7.5rem). */
-.display-fluid {
-  font-family: var(--font-display);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1.02;
-  font-size: clamp(2.75rem, 6vw + 1rem, 7.5rem);
-}
-
-/* Editorial accent words inside headlines: Instrument Serif Italic. */
-.accent-serif {
-  font-family: var(--font-serif-accent);
-  font-style: italic;
-  font-weight: 400;
-  letter-spacing: 0;
-}
-
-/* Tabular numerals for counters, clocks, labels. */
-.tnum {
-  font-family: var(--font-mono);
-  font-variant-numeric: tabular-nums;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
   }
+  to {
+    height: 0;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Hero entrance: pure CSS, so text is never hidden waiting for JS. */
+.intro {
+  animation: rise 1s var(--ease-out-expo) both;
+}
+.intro-1 {
+  animation-delay: 80ms;
+}
+.intro-2 {
+  animation-delay: 180ms;
+}
+.intro-3 {
+  animation-delay: 300ms;
+}
+.intro-4 {
+  animation-delay: 420ms;
+}
+
+/*
+ * Scroll reveals via CSS scroll-driven animations — progressive enhancement:
+ * browsers without support simply show the content, and nothing depends on
+ * JavaScript running first.
+ */
+@supports (animation-timeline: view()) {
+  .reveal {
+    animation: rise linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 55%;
+  }
+}
+
+/* Every animation stops for people who ask for less motion. */
+@media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal,
+  .intro {
+    animation: none !important;
   }
 }

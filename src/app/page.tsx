@@ -2,45 +2,41 @@ import type { Metadata } from 'next'
 import { FaqPreview } from '@/components/home/faq-preview'
 import { Handoff } from '@/components/home/handoff'
 import { Hero } from '@/components/home/hero'
-import { HowItWorks } from '@/components/home/how-it-works'
-import { IndustriesMarquee } from '@/components/home/industries-marquee'
+import { Industries } from '@/components/home/industries'
 import { InsightsPreview } from '@/components/home/insights-preview'
-import { SavingsTeaser } from '@/components/home/savings-teaser'
-import { ServicesBento } from '@/components/home/services-bento'
-import { WhyAkrostech } from '@/components/home/why-akrostech'
+import { Manifesto } from '@/components/home/manifesto'
+import { Process } from '@/components/home/process'
+import { ServicesList } from '@/components/home/services-list'
+import { Ticker } from '@/components/home/ticker'
+import { Why } from '@/components/home/why'
 import { CtaBand } from '@/components/sections/cta-band'
 
-/**
- * Home — assembled from the M1 copy deck with M2 components and the M3
- * signature pieces (Living Globe hero, 24-hour handoff).
- * M5 wires these sections to the Velite CMS layer.
- */
 export const metadata: Metadata = {
-  title: 'Offshore Staffing Company for US Businesses',
+  title: { absolute: 'Akrostech — Offshore Teams That Work Your U.S. Hours' },
   description:
-    'Akrostech gives U.S. businesses dedicated offshore professionals and a web studio in India — working your hours, measured on quality, at a fraction of U.S. cost.',
+    'Dedicated recruiters, assistants, bookkeepers, paralegals and a web studio in India — working your U.S. hours, inside your tools, measured on quality.',
 }
 
 export default function HomePage() {
   return (
     <main>
       <Hero />
-      <ServicesBento />
+      <Ticker />
+      <Manifesto />
+      <ServicesList />
       <Handoff />
-      <SavingsTeaser />
-      <HowItWorks />
-      <WhyAkrostech />
-      <IndustriesMarquee />
+      <Why />
+      <Process />
+      <Industries />
       <InsightsPreview />
       <FaqPreview />
       <CtaBand
         title={
           <>
-            Let&apos;s build your team{' '}
-            <span className="font-serif-accent italic">across every hour</span>
+            Let&rsquo;s build your team, <span className="accent">together.</span>
           </>
         }
-        body="A 30-minute call. No commitment. Tell us what hurts most — we'll tell you honestly whether we're the right fix."
+        body="Thirty minutes, no commitment. Tell us what hurts most — we’ll tell you honestly whether we’re the right fix."
       />
     </main>
   )

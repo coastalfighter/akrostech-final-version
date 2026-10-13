@@ -35,7 +35,19 @@ describe('Button', () => {
     )
     const link = screen.getByRole('link', { name: /book/i })
     expect(link).toHaveAttribute('href', '/book')
-    expect(link.className).toContain('bg-akros-indigo')
+    expect(link.className).toContain('bg-lime')
+  })
+
+  it('hides the decorative arrow from assistive tech, and can drop it', () => {
+    const { container, rerender } = render(<Button>With arrow</Button>)
+    expect(container.querySelector('[aria-hidden="true"] svg')).toBeInTheDocument()
+    rerender(<Button arrow={false}>No arrow</Button>)
+    expect(container.querySelector('svg')).not.toBeInTheDocument()
+  })
+
+  it('defaults to type="button" so it never submits forms by accident', () => {
+    render(<Button>Plain</Button>)
+    expect(screen.getByRole('button', { name: 'Plain' })).toHaveAttribute('type', 'button')
   })
 
   it('forwards the disabled state', () => {
@@ -50,7 +62,7 @@ describe('Button', () => {
 
   it('has no axe violations (secondary, ghost)', async () => {
     const { container } = render(
-      <div data-surface="light">
+      <div>
         <Button variant="secondary">Explore</Button>
         <Button variant="ghost">Learn more</Button>
       </div>,

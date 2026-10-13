@@ -28,37 +28,33 @@ export function ConsentBanner() {
         role="dialog"
         aria-live="polite"
         aria-label="Cookie consent"
-        className="fixed inset-x-4 bottom-4 z-[95] mx-auto max-w-2xl"
+        className="fixed inset-x-4 bottom-4 z-[95] sm:right-auto sm:max-w-[440px] lg:left-[112px]"
         initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 24 }}
         animate={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
         exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 24 }}
         transition={{ duration: DUR_BASE, ease: EASE_OUT_EXPO }}
       >
-        <div className="glass rounded-[20px] p-6 md:p-8">
-          <h2 className="font-display text-paper-50 text-lg font-semibold">
-            A quick word on cookies
-          </h2>
-          <p className="mt-2 text-[15px] leading-relaxed text-mist-400">
+        <div className="border-line bg-ink-3/95 rounded-[var(--radius-card)] border p-6 shadow-[0_24px_80px_-20px_rgba(0,0,0,0.7)] backdrop-blur-xl">
+          <h2 className="font-display text-cream text-xl">A quick word on cookies</h2>
+          <p className="text-fog mt-2 text-[15px] leading-relaxed">
             We use necessary cookies to run the site. With your permission, we&apos;ll also use
             analytics cookies to understand visits and marketing cookies for advertising. No choice
             is also a choice — the site works either way.
           </p>
 
           {customizing && (
-            <div className="border-line-dark mt-4 space-y-3 rounded-[12px] border p-4">
+            <div className="border-line mt-4 space-y-3 rounded-[12px] border p-4">
               <label className="flex cursor-pointer items-center justify-between gap-4">
-                <span className="text-paper-50 text-[15px]">
+                <span className="text-cream text-[15px]">
                   Necessary
-                  <span className="block text-sm text-mist-400">
-                    Required for the site to work.
-                  </span>
+                  <span className="text-fog block text-sm">Required for the site to work.</span>
                 </span>
                 <Checkbox checked disabled aria-label="Necessary cookies (always on)" />
               </label>
               <label className="flex cursor-pointer items-center justify-between gap-4">
-                <span className="text-paper-50 text-[15px]">
+                <span className="text-cream text-[15px]">
                   Analytics
-                  <span className="block text-sm text-mist-400">Helps us understand visits.</span>
+                  <span className="text-fog block text-sm">Helps us understand visits.</span>
                 </span>
                 <Checkbox
                   checked={analytics}
@@ -67,9 +63,9 @@ export function ConsentBanner() {
                 />
               </label>
               <label className="flex cursor-pointer items-center justify-between gap-4">
-                <span className="text-paper-50 text-[15px]">
+                <span className="text-cream text-[15px]">
                   Marketing
-                  <span className="block text-sm text-mist-400">Used for advertising.</span>
+                  <span className="text-fog block text-sm">Used for advertising.</span>
                 </span>
                 <Checkbox
                   checked={marketing}

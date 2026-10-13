@@ -2,15 +2,15 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { CtaBand } from '@/components/sections/cta-band'
 import { PageHero } from '@/components/sections/page-hero'
+import { Button } from '@/components/ui/button'
 import { Container, Section } from '@/components/ui/layout'
-import { Eyebrow } from '@/components/ui/typography'
-import { getService, services } from '@/data/services'
+import { getService } from '@/data/services'
 import { industries } from '@/data/site'
 
 export const metadata: Metadata = {
   title: 'Industries We Serve',
   description:
-    'Akrostech serves U.S. law firms, healthcare, staffing agencies, e-commerce, SaaS, and real estate — with services tuned to each industry\u2019s reality.',
+    'Akrostech serves U.S. law firms, healthcare, staffing agencies, e-commerce, SaaS and real estate — with services tuned to each industry’s reality.',
 }
 
 export default function IndustriesPage() {
@@ -20,81 +20,92 @@ export default function IndustriesPage() {
         eyebrow="Industries"
         title={
           <>
-            Built for your industry\u2019s{' '}
-            <span className="font-serif-accent italic">reality.</span>
+            Built for your <span className="accent">industry’s reality.</span>
           </>
         }
-        lead="Outsourcing isn\u2019t one-size-fits-all. Here\u2019s how each service bends toward the work your industry actually does."
-        variant="constellation"
+        lead="Outsourcing isn’t one-size-fits-all. Here’s how each service bends toward the work your industry actually does."
+        word="Industries"
         crumbs={[{ label: 'Industries' }]}
       />
-      <Section surface="light" padding="compact">
+
+      <Section tone="ink" className="pt-16 md:pt-24">
         <Container>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {industries.map((industry) => (
-              <article
+          <ol className="border-line border-t">
+            {industries.map((industry, i) => (
+              <li
                 key={industry.slug}
-                className="border-graphite-900/10 flex flex-col rounded-[24px] border bg-white p-8"
+                id={industry.slug}
+                className="border-line grid scroll-mt-28 gap-8 border-b py-14 lg:grid-cols-[80px_1fr_1.1fr] lg:gap-12 lg:py-20"
               >
-                <Eyebrow>{industry.name}</Eyebrow>
-                <p className="mt-3 flex-1 leading-relaxed text-slate-600">{industry.blurb}</p>
-                <h3 className="mt-6 font-mono text-xs tracking-[0.2em] text-slate-600 uppercase">
-                  Typical pains
-                </h3>
-                <ul className="mt-2 space-y-1.5 text-[15px] text-slate-600">
-                  {industry.pains.map((pain) => (
-                    <li key={pain} className="flex gap-2">
-                      <span aria-hidden="true" className="text-akros-indigo">
-                        →
-                      </span>{' '}
-                      {pain}
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-6 flex flex-wrap gap-2">
-                  {industry.services.map((slug) => {
-                    const s = getService(slug)
-                    if (!s) return null
-                    return (
-                      <Link
-                        key={slug}
-                        href={`/services/${slug}`}
-                        className="bg-graphite-900/[0.05] text-graphite-900 hover:bg-akros-indigo rounded-full px-4 py-1.5 text-sm font-medium transition-colors hover:text-white"
-                      >
-                        {s.shortName}
-                      </Link>
-                    )
-                  })}
+                <span className="tnum text-sage text-sm">{String(i + 1).padStart(2, '0')}</span>
+                <div>
+                  <h2 className="font-display text-5xl tracking-[-0.03em] md:text-6xl">
+                    {industry.name}
+                  </h2>
+                  <p className="text-fog mt-6 max-w-[48ch] text-lg leading-relaxed">
+                    {industry.blurb}
+                  </p>
+                  <div className="mt-8 flex flex-wrap gap-2">
+                    {industry.services.map((slug) => {
+                      const s = getService(slug)
+                      if (!s) return null
+                      return (
+                        <Link
+                          key={slug}
+                          href={`/services/${slug}`}
+                          className="border-line text-cream hover:border-lime hover:bg-lime hover:text-ink rounded-full border px-4 py-2 text-sm transition-colors"
+                        >
+                          {s.name}
+                        </Link>
+                      )
+                    })}
+                  </div>
                 </div>
-              </article>
+                <div className="bg-ink-2 rounded-[var(--radius-card)] p-8">
+                  <h3 className="text-sage text-xs tracking-[0.22em] uppercase">Pains we fix</h3>
+                  <ul className="mt-6 space-y-4">
+                    {industry.pains.map((pain) => (
+                      <li key={pain} className="font-display flex gap-4 text-xl leading-snug">
+                        <span
+                          aria-hidden="true"
+                          className="bg-lime mt-2.5 size-1.5 shrink-0 rounded-full"
+                        />
+                        {pain}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </li>
             ))}
+          </ol>
+        </Container>
+      </Section>
+
+      <Section tone="forest" padding="compact">
+        <Container className="relative">
+          <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
+            <div>
+              <p className="text-sage text-xs tracking-[0.22em] uppercase">
+                Don’t see your industry?
+              </p>
+              <h2 className="font-display mt-4 max-w-3xl text-4xl tracking-[-0.025em] md:text-5xl">
+                If the work is real, <span className="accent">we can staff it.</span>
+              </h2>
+            </div>
+            <Button asChild size="lg">
+              <Link href="/book">Tell us what you do</Link>
+            </Button>
           </div>
         </Container>
       </Section>
-      <Section surface="dark" padding="compact">
-        <Container>
-          <Eyebrow>Don\u2019t see your industry?</Eyebrow>
-          <p className="font-display text-paper-50 mt-4 max-w-3xl text-3xl font-bold">
-            If the work is real, we can staff it.
-          </p>
-          <p className="mt-4 max-w-[68ch] leading-relaxed text-mist-400">
-            These six are where we\u2019ve built the deepest playbooks. But the model — dedicated
-            professionals, vetted three ways, on your hours — works anywhere the work is
-            well-defined. Tell us what you do; we\u2019ll tell you honestly if we fit.
-          </p>
-          <div className="mt-8">
-            <Link
-              href="/book"
-              className="text-indigo-glow hover:text-paper-50 text-lg font-medium transition-colors"
-            >
-              Book a 30-min call →
-            </Link>
-          </div>
-        </Container>
-      </Section>
+
       <CtaBand
-        title="Your industry, your team"
-        body="Thirty minutes to map your needs against the playbook we\u2019ve built for businesses like yours."
+        title={
+          <>
+            Your industry, <span className="accent">your team.</span>
+          </>
+        }
+        body="Thirty minutes to map your needs against the playbook we’ve built for businesses like yours."
       />
     </main>
   )

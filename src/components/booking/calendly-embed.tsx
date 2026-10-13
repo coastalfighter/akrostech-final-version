@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import * as React from 'react'
 import { env } from '@/lib/env'
 
@@ -15,35 +16,35 @@ export function CalendlyEmbed() {
 
   if (!url || failed) {
     return (
-      <div className="border-graphite-900/10 rounded-[24px] border bg-white p-8 md:p-10">
-        <p className="font-mono text-xs tracking-[0.25em] text-slate-600 uppercase">Scheduling</p>
-        <h2 className="font-display text-graphite-900 mt-4 text-2xl font-semibold">
+      <div className="border-line bg-ink-2 rounded-[var(--radius-card)] border p-8 md:p-10">
+        <p className="text-sage text-xs tracking-[0.22em] uppercase">Scheduling</p>
+        <h2 className="font-display text-cream mt-6 text-4xl tracking-[-0.025em]">
           Book directly for now
         </h2>
-        <p className="mt-3 leading-relaxed text-slate-600">
+        <p className="text-fog mt-3 leading-relaxed">
           Our scheduling calendar is being connected. The fastest path is a call or a message — we
           reply within one business day.
         </p>
         <div className="mt-8 flex flex-wrap gap-4">
           <a
             href="tel:+13322870846"
-            className="bg-akros-indigo inline-flex min-h-[48px] items-center justify-center rounded-full px-7 font-semibold text-white transition-colors hover:bg-[#4a4de0]"
+            className="bg-lime text-ink hover:bg-cream inline-flex min-h-[52px] items-center justify-center rounded-full px-7 font-medium transition-colors"
           >
             +1 (332) 287-0846
           </a>
-          <a
+          <Link
             href="/contact"
-            className="border-graphite-900/20 text-graphite-900 hover:border-akros-indigo inline-flex min-h-[48px] items-center justify-center rounded-full border px-7 font-semibold transition-colors"
+            className="border-cream/25 text-cream hover:border-cream hover:bg-cream hover:text-ink inline-flex min-h-[52px] items-center justify-center rounded-full border px-7 font-medium transition-colors"
           >
             Send a message
-          </a>
+          </Link>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="border-graphite-900/10 overflow-hidden rounded-[24px] border bg-white">
+    <div className="border-line bg-ink-2 overflow-hidden rounded-[var(--radius-card)] border">
       <iframe
         title="Book a 30-minute call with Akrostech"
         src={`${url}?hide_gdpr_banner=1`}

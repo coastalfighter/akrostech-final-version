@@ -6,7 +6,7 @@ import { expect, test } from '@playwright/test'
  */
 
 const ROUTES: { path: string; h1: RegExp }[] = [
-  { path: '/', h1: /your team, across every hour/i },
+  { path: '/', h1: /your team, on your clock/i },
   { path: '/services', h1: /five services/i },
   { path: '/services/website-development', h1: /best salesperson/i },
   { path: '/services/recruitment-process-outsourcing', h1: /bottleneck/i },
@@ -14,6 +14,8 @@ const ROUTES: { path: string; h1: RegExp }[] = [
   { path: '/services/accounting-outsourcing', h1: /your cpa, happy/i },
   { path: '/services/legal-process-outsourcing', h1: /paralegal bench/i },
   { path: '/how-it-works', h1: /without the hiring/i },
+  { path: '/privacy-policy', h1: /privacy policy/i },
+  { path: '/terms', h1: /terms/i },
   { path: '/pricing', h1: /no mystery math/i },
   { path: '/industries', h1: /industry.s reality/i },
   { path: '/about', h1: /the distance is ours/i },
@@ -37,7 +39,7 @@ for (const route of ROUTES) {
   })
 }
 
-test('site chrome: header nav, footer NAP, and mobile menu', async ({ page }) => {
+test('site chrome: header nav, footer NAP, and full-screen menu', async ({ page }) => {
   await page.goto('/services')
 
   // Desktop nav
@@ -76,12 +78,16 @@ test('service finder quiz recommends a service', async ({ page }) => {
   await page.getByRole('button', { name: /a dedicated person/i }).click()
   await page.getByRole('button', { name: /hours back weekly/i }).click()
   await expect(page.getByText('Your match')).toBeVisible()
-  await expect(page.getByRole('heading', { name: 'Virtual Assistance' })).toBeVisible()
+  await expect(
+    page.locator('#quiz').getByRole('heading', { name: 'Virtual Assistance' }),
+  ).toBeVisible()
 })
 
 test('service pages link to each other in order', async ({ page }) => {
   await page.goto('/services/website-development')
-  const related = page.getByRole('link', { name: /recruitment process outsourcing/i })
+  const related = page
+    .getByRole('main')
+    .getByRole('link', { name: /recruitment process outsourcing/i })
   await related.scrollIntoViewIfNeeded()
   await expect(related).toBeVisible()
   await related.click()
@@ -122,9 +128,7 @@ test('insights index links to CMS articles', async ({ page }) => {
   await expect(page.getByText('Jennifer', { exact: true }).first()).toBeVisible()
 })
 
-test('legacy URLs: spam patterns 410, known paths 301, unknown paths 404', async ({
-  request,
-}) => {
+test('legacy URLs: spam patterns 410, known paths 301, unknown paths 404', async ({ request }) => {
   const spam = await request.get('/casino-royale-bonus')
   expect(spam.status()).toBe(410)
 
@@ -139,10 +143,16 @@ test('legacy URLs: spam patterns 410, known paths 301, unknown paths 404', async
 test('client runtime hydrates under the Content Security Policy', async ({ page }) => {
   const pageErrors: string[] = []
   page.on('pageerror', (error) => pageErrors.push(error.message))
+  page.on('console', (message) => {
+    if (message.type() === 'error') pageErrors.push(message.text())
+  })
   await page.goto('/')
-  const flightChunks = await page.evaluate(() => (self as any).__next_f?.length ?? 0)
-  expect(flightChunks).toBeGreaterThan(0)
-  await page.waitForTimeout(1500)
+  // The inline flight-data scripts ran (a CSP nonce would block them)…
+  expect(await page.evaluate(() => typeof (self as any).__next_f)).toBe('object')
+  // …and React hydrated: a client-only interaction works.
+  await page.getByRole('button', { name: 'Open menu' }).first().click()
+  await expect(page.getByRole('dialog', { name: 'Menu' })).toBeVisible()
+  await page.waitForTimeout(500)
   expect(pageErrors).toEqual([])
 })
 
@@ -157,6 +167,9 @@ test('security headers are present and previews are not indexed', async ({ reque
   const response = await request.get('/')
   const headers = response.headers()
   expect(headers['content-security-policy']).toContain("default-src 'self'")
+  // A nonce would make browsers ignore 'unsafe-inline' and block hydration
+  // of statically prerendered pages.
+  expect(headers['content-security-policy']).not.toContain('nonce-')
   expect(headers['strict-transport-security']).toContain('max-age=63072000')
   expect(headers['x-content-type-options']).toBe('nosniff')
   expect(headers['referrer-policy']).toBe('strict-origin-when-cross-origin')

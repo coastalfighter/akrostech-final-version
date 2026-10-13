@@ -8,8 +8,6 @@ import { SiteChrome } from '@/components/layout/site-chrome'
 import { SiteFooter } from '@/components/layout/site-footer'
 import { JsonLd, organizationJsonLd, websiteJsonLd } from '@/components/seo/json-ld'
 import { MotionProvider } from '@/components/providers/motion-provider'
-import { PageTransition } from '@/components/providers/page-transition'
-import { SmoothScroll } from '@/components/providers/smooth-scroll'
 import { env } from '@/lib/env'
 import { siteConfig } from '@/config/site'
 import { cn } from '@/lib/utils'
@@ -17,7 +15,7 @@ import { cn } from '@/lib/utils'
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_SITE_URL),
   title: {
-    default: `${siteConfig.brandName} Consulting LLC`,
+    default: `${siteConfig.brandName} — Offshore Teams That Work Your Hours`,
     template: `%s · ${siteConfig.brandName}`,
   },
   description:
@@ -28,7 +26,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#070B16',
+  themeColor: '#0A0B0A',
   width: 'device-width',
   initialScale: 1,
 }
@@ -41,18 +39,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <JsonLd data={[organizationJsonLd(siteUrl), websiteJsonLd(siteUrl)]} />
         <MotionProvider>
           <ConsentProvider>
-            <SmoothScroll>
-              <PageTransition />
-              <div
-                className="film-grain pointer-events-none fixed inset-0 z-[90]"
-                aria-hidden="true"
-              />
-              <SiteChrome />
-              {children}
+            <SiteChrome />
+            <div className="lg:pl-[88px]">
+              <div id="main" tabIndex={-1} className="outline-none">
+                {children}
+              </div>
               <SiteFooter />
-              <ConsentBanner />
-              <Analytics />
-            </SmoothScroll>
+            </div>
+            <ConsentBanner />
+            <Analytics />
           </ConsentProvider>
         </MotionProvider>
       </body>

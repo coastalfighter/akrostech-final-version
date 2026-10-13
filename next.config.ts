@@ -1,7 +1,13 @@
 import type { NextConfig } from 'next'
+import { resolveSiteUrl } from './src/lib/site-url'
+
+// Resolve the site URL at build time (including the Vercel fallback) and
+// inline it, so browser code sees the same value as the server.
+const siteUrl = resolveSiteUrl(process.env)
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  ...(siteUrl ? { env: { NEXT_PUBLIC_SITE_URL: siteUrl } } : {}),
   reactStrictMode: true,
   images: {
     formats: ['image/avif', 'image/webp'],

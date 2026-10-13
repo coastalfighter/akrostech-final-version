@@ -1,11 +1,10 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import { ApplicationForm } from '@/components/forms/application-form'
 import { CtaBand } from '@/components/sections/cta-band'
 import { PageHero } from '@/components/sections/page-hero'
-import { Button } from '@/components/ui/button'
 import { Container, Section } from '@/components/ui/layout'
-import { Eyebrow, Heading, Lead } from '@/components/ui/typography'
+import { Eyebrow, Lead, SectionHeader } from '@/components/ui/typography'
+import { cmsRolesByDate } from '@/lib/content'
 
 export const metadata: Metadata = {
   title: 'Careers — Join the Akrostech Team',
@@ -20,11 +19,11 @@ const PERKS = [
   },
   {
     title: 'U.S.-hours alignment',
-    body: 'Shifts mapped to EST\u2013PST, with structure that respects your time.',
+    body: 'Shifts mapped to EST through PST, with structure that respects your time.',
   },
   {
     title: 'Growth paths',
-    body: 'Recruiters become leads, VAs become operations managers, developers become architects.',
+    body: 'Recruiters become leads, assistants become operations managers, developers become architects.',
   },
   {
     title: 'Real accountability',
@@ -39,90 +38,72 @@ export default function CareersPage() {
         eyebrow="Careers"
         title={
           <>
-            Do the best work of <span className="font-serif-accent italic">your career.</span>
+            Do the best work <span className="accent">of your career.</span>
           </>
         }
         lead="Join the India delivery team behind U.S. businesses: dedicated roles, real clients, and growth you can plan around."
-        variant="collage"
+        word="Careers"
         crumbs={[{ label: 'Careers' }]}
       />
-      <Section surface="light">
+
+      <Section tone="ink" className="pt-16 md:pt-24">
         <Container>
-          <Eyebrow>Why Akrostech</Eyebrow>
-          <div className="mt-8 grid gap-4 md:grid-cols-2">
-            {PERKS.map((perk) => (
-              <div
-                key={perk.title}
-                className="border-graphite-900/10 rounded-[20px] border bg-white p-8"
-              >
-                <h3 className="font-display text-graphite-900 text-xl font-semibold">
-                  {perk.title}
-                </h3>
-                <p className="mt-2 leading-relaxed text-slate-600">{perk.body}</p>
-              </div>
+          <ul className="border-line bg-line grid gap-px overflow-hidden rounded-[var(--radius-card)] border md:grid-cols-2 lg:grid-cols-4">
+            {PERKS.map((perk, i) => (
+              <li key={perk.title} className="bg-ink-2 p-8">
+                <span className="tnum text-sage text-sm">{String(i + 1).padStart(2, '0')}</span>
+                <h2 className="font-display mt-10 text-2xl tracking-[-0.015em]">{perk.title}</h2>
+                <p className="text-fog mt-3 leading-relaxed">{perk.body}</p>
+              </li>
             ))}
-          </div>
-          <p className="mt-6 text-sm text-slate-600">
-            Benefits and compensation bands are being confirmed with the client before launch.
-          </p>
+          </ul>
         </Container>
       </Section>
-      <Section surface="dark">
+
+      <Section tone="raised">
         <Container>
-          <Eyebrow>Open roles</Eyebrow>
-          <Heading as="h2" className="mt-4">
-            Sample openings
-          </Heading>
-          <Lead className="mt-4">
-            Real postings are being confirmed with the client. These samples show the shape of our
-            roles.
-          </Lead>
-          <div className="mt-10 grid gap-4 md:grid-cols-2">
-            {[
-              {
-                title: 'Senior Recruiter (RPO)',
-                meta: 'Full-time · U.S. hours (EST overlap) · Remote (India)',
-                body: 'Run full-cycle recruiting for U.S. clients: sourcing, screening, and shortlists against real scorecards.',
-              },
-              {
-                title: 'Executive Virtual Assistant',
-                meta: 'Full-time · U.S. hours (PST overlap) · Remote (India)',
-                body: 'Own inbox, calendar, and operations for U.S. founders. Impeccable English, total reliability.',
-              },
-            ].map((role) => (
-              <article
-                key={role.title}
-                className="border-line-dark bg-ink-800 rounded-[24px] border p-8"
+          <SectionHeader
+            eyebrow="Open roles"
+            index="01"
+            title={
+              <>
+                Where you <span className="accent">could fit.</span>
+              </>
+            }
+            lead="Sample openings — they show the shape of our roles while live postings are confirmed."
+          />
+          <ul className="border-line mt-14 border-t">
+            {cmsRolesByDate.map((role) => (
+              <li
+                key={role.slug}
+                className="border-line grid gap-4 border-b py-10 md:grid-cols-[1.2fr_1fr_auto] md:items-center md:gap-10"
               >
-                <p className="font-mono text-xs tracking-[0.2em] text-mist-400 uppercase">
-                  {role.meta}
+                <div>
+                  <p className="text-sage text-xs tracking-[0.22em] uppercase">{role.department}</p>
+                  <h3 className="font-display mt-3 text-3xl tracking-[-0.02em] md:text-4xl">
+                    {role.title}
+                  </h3>
+                </div>
+                <p className="text-fog leading-relaxed">{role.description}</p>
+                <p className="flex flex-wrap gap-2 text-sm">
+                  <span className="border-line rounded-full border px-3 py-1">{role.type}</span>
+                  <span className="border-line rounded-full border px-3 py-1">{role.location}</span>
                 </p>
-                <h3 className="font-display text-paper-50 mt-3 text-2xl font-semibold">
-                  {role.title}
-                </h3>
-                <p className="mt-2 leading-relaxed text-mist-400">{role.body}</p>
-                <p className="mt-4 text-sm text-mist-400 italic">
-                  Sample posting — real roles confirmed before launch.
-                </p>
-              </article>
+              </li>
             ))}
-          </div>
-          <div className="mt-10">
-            <Button asChild size="lg">
-              <Link href="/contact">Get in touch about roles</Link>
-            </Button>
-          </div>
+          </ul>
         </Container>
       </Section>
-      <Section surface="light">
+
+      <Section tone="ink" id="apply">
         <Container>
-          <div className="grid gap-10 lg:grid-cols-[1fr_1.2fr]">
-            <div>
-              <Eyebrow>Apply</Eyebrow>
-              <Heading as="h2" className="mt-4">
-                Send your application
-              </Heading>
-              <Lead className="mt-4">
+          <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+            <div className="lg:sticky lg:top-32 lg:self-start">
+              <Eyebrow index="02">Apply</Eyebrow>
+              <h2 className="font-display mt-6 text-4xl tracking-[-0.025em] md:text-6xl">
+                Send your <span className="accent">application.</span>
+              </h2>
+              <Lead className="mt-6">
                 Attach your CV and tell us which role fits. We review every application ourselves —
                 no ATS black hole.
               </Lead>
@@ -131,11 +112,15 @@ export default function CareersPage() {
           </div>
         </Container>
       </Section>
+
       <CtaBand
-        title="Want to work with us?"
-        body="Tell us what you do best. If there\u2019s a fit — now or later — we\u2019ll be in touch."
-        primary={{ label: 'Contact us', href: '/contact' }}
-        secondary={{ label: 'How we work', href: '/how-it-works' }}
+        eyebrow="Hiring us instead?"
+        title={
+          <>
+            Looking for a team, <span className="accent">not a job?</span>
+          </>
+        }
+        body="If you’re a U.S. business, start here: thirty minutes, no commitment."
       />
     </main>
   )

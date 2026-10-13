@@ -18,12 +18,12 @@ const Checkbox = React.forwardRef<
     <CheckboxPrimitive.Root
       ref={ref}
       className={cn(
-        'peer border-line-dark bg-ink-950 hover:border-indigo-glow data-[state=checked]:border-akros-indigo data-[state=checked]:bg-akros-indigo data-[surface=light]:border-graphite-900/30 flex size-[22px] min-h-[22px] min-w-[22px] shrink-0 cursor-pointer items-center justify-center rounded-[6px] border transition-colors duration-150 focus-visible:outline-2 data-[surface=light]:bg-white',
+        'peer border-line bg-ink hover:border-lime data-[state=checked]:border-lime data-[state=checked]:bg-lime flex size-[22px] min-h-[22px] min-w-[22px] shrink-0 cursor-pointer items-center justify-center rounded-[6px] border transition-colors duration-150 focus-visible:outline-2',
         className,
       )}
       {...props}
     >
-      <CheckboxPrimitive.Indicator className="flex items-center justify-center text-white">
+      <CheckboxPrimitive.Indicator className="text-ink flex items-center justify-center">
         <Check aria-hidden="true" weight="bold" className="size-3.5" />
       </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>
@@ -41,10 +41,7 @@ function ConsentCheckbox({
   return (
     <div className={cn('flex items-start gap-3', className)}>
       <Checkbox id={checkboxId} {...props} />
-      <label
-        htmlFor={checkboxId}
-        className="cursor-pointer text-sm leading-relaxed text-mist-400 data-[surface=light]:text-slate-600"
-      >
+      <label htmlFor={checkboxId} className="text-fog cursor-pointer text-sm leading-relaxed">
         {label}
       </label>
     </div>

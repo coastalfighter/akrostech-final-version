@@ -9,7 +9,7 @@ export function CookieSettingsLink() {
     <button
       type="button"
       onClick={resetConsent}
-      className="hover:text-paper-50 cursor-pointer text-sm text-mist-400 transition-colors duration-150"
+      className="text-fog hover:text-lime cursor-pointer text-sm transition-colors duration-200"
     >
       Cookie settings
     </button>

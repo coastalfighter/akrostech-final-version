@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { resolveSiteUrl } from './site-url'
 
 /**
  * Environment validation. Runs at build time (imported by the root layout),
@@ -83,16 +84,48 @@ export type Env = z.infer<typeof envSchema>
 type RawEnv = Record<string, string | undefined>
 
 /**
- * Fill NEXT_PUBLIC_SITE_URL from Vercel's system variables when it is unset:
- * the production domain for Production builds, the deployment URL otherwise.
+ * Fill NEXT_PUBLIC_SITE_URL from Vercel's system variables when it is unset
+ * (see resolveSiteUrl).
  */
 export function withSiteUrlFallback(input: RawEnv): RawEnv {
-  if (trimBlankToUndefined(input.NEXT_PUBLIC_SITE_URL)) return input
-  const host =
-    input.VERCEL_ENV === 'production'
-      ? trimBlankToUndefined(input.VERCEL_PROJECT_PRODUCTION_URL)
-      : (trimBlankToUndefined(input.VERCEL_BRANCH_URL) ?? trimBlankToUndefined(input.VERCEL_URL))
-  return host ? { ...input, NEXT_PUBLIC_SITE_URL: `https://${host}` } : input
+  const siteUrl = resolveSiteUrl(input)
+  return siteUrl ? { ...input, NEXT_PUBLIC_SITE_URL: siteUrl } : input
+}
+
+/**
+ * Read every variable by its literal name. In the browser, Next.js only
+ * inlines `process.env.NEXT_PUBLIC_*` when written out literally — passing the
+ * whole `process.env` object would leave every value undefined client-side.
+ * Server-only secrets stay undefined in the browser, which the schema allows.
+ */
+function readProcessEnv(): RawEnv {
+  return {
+    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
+    NEXT_PUBLIC_ALLOW_INDEXING: process.env.NEXT_PUBLIC_ALLOW_INDEXING,
+    NEXT_PUBLIC_ALLOW_AI_CRAWLERS: process.env.NEXT_PUBLIC_ALLOW_AI_CRAWLERS,
+    NEXT_PUBLIC_CALENDLY_URL: process.env.NEXT_PUBLIC_CALENDLY_URL,
+    NEXT_PUBLIC_CONTACT_EMAIL: process.env.NEXT_PUBLIC_CONTACT_EMAIL,
+    NEXT_PUBLIC_CONTACT_PHONE: process.env.NEXT_PUBLIC_CONTACT_PHONE,
+    CONTACT_INBOX_EMAIL: process.env.CONTACT_INBOX_EMAIL,
+    RESEND_API_KEY: process.env.RESEND_API_KEY,
+    RESEND_FROM_EMAIL: process.env.RESEND_FROM_EMAIL,
+    NEXT_PUBLIC_TURNSTILE_SITE_KEY: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
+    TURNSTILE_SECRET_KEY: process.env.TURNSTILE_SECRET_KEY,
+    UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
+    UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
+    BLOB_READ_WRITE_TOKEN: process.env.BLOB_READ_WRITE_TOKEN,
+    NEXT_PUBLIC_GA_MEASUREMENT_ID: process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID,
+    NEXT_PUBLIC_LINKEDIN_PARTNER_ID: process.env.NEXT_PUBLIC_LINKEDIN_PARTNER_ID,
+    NEXT_PUBLIC_META_PIXEL_ID: process.env.NEXT_PUBLIC_META_PIXEL_ID,
+    NEXT_PUBLIC_FLAG_TESTIMONIALS: process.env.NEXT_PUBLIC_FLAG_TESTIMONIALS,
+    NEXT_PUBLIC_FLAG_CASE_STUDIES: process.env.NEXT_PUBLIC_FLAG_CASE_STUDIES,
+    NEXT_PUBLIC_FLAG_CLIENT_LOGOS: process.env.NEXT_PUBLIC_FLAG_CLIENT_LOGOS,
+    NEXT_PUBLIC_FLAG_STATS: process.env.NEXT_PUBLIC_FLAG_STATS,
+    VERCEL_ENV: process.env.VERCEL_ENV,
+    VERCEL_URL: process.env.VERCEL_URL,
+    VERCEL_BRANCH_URL: process.env.VERCEL_BRANCH_URL,
+    VERCEL_PROJECT_PRODUCTION_URL: process.env.VERCEL_PROJECT_PRODUCTION_URL,
+  }
 }
 
 export function parseEnv(input: RawEnv): Env {
@@ -107,7 +140,7 @@ let cached: Env | null = null
 
 export function getEnv(): Env {
   if (cached) return cached
-  const result = envSchema.safeParse(withSiteUrlFallback(process.env))
+  const result = envSchema.safeParse(withSiteUrlFallback(readProcessEnv()))
   if (!result.success) {
     throw new Error(
       `Invalid environment configuration. Check .env.local against .env.example:\n${formatError(result.error)}`,

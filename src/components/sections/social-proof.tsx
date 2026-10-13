@@ -20,12 +20,12 @@ export interface Testimonial {
 export function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
   return (
     <Card>
-      <blockquote className="text-paper-50 text-lg leading-relaxed">
+      <blockquote className="text-cream text-lg leading-relaxed">
         &ldquo;{testimonial.quote}&rdquo;
       </blockquote>
       <footer className="mt-6">
-        <p className="text-paper-50 font-medium">{testimonial.name}</p>
-        <p className="text-sm text-mist-400">
+        <p className="text-cream font-medium">{testimonial.name}</p>
+        <p className="text-fog text-sm">
           {testimonial.role}, {testimonial.company}
         </p>
       </footer>
@@ -61,15 +61,13 @@ export interface CaseStudy {
 export function CaseStudyCard({ study }: { study: CaseStudy }) {
   return (
     <Card className={cn('flex flex-col')}>
-      <p className="text-aurora-teal font-mono text-xs tracking-[0.25em] uppercase">
-        {study.industry}
-      </p>
-      <h3 className="font-display text-paper-50 mt-3 text-xl font-semibold">{study.title}</h3>
-      <p className="mt-2 text-mist-400">{study.challenge}</p>
-      <p className="text-paper-50 mt-4 flex-1 font-medium">{study.outcome}</p>
+      <p className="text-sage text-xs tracking-[0.25em] uppercase">{study.industry}</p>
+      <h3 className="font-display text-cream mt-3 text-xl">{study.title}</h3>
+      <p className="text-fog mt-2">{study.challenge}</p>
+      <p className="text-cream mt-4 flex-1 font-medium">{study.outcome}</p>
       <a
         href={study.href}
-        className="text-indigo-glow hover:text-paper-50 mt-6 text-[15px] font-medium transition-colors"
+        className="text-lime hover:text-cream mt-6 text-[15px] font-medium transition-colors"
       >
         Read the case study
       </a>

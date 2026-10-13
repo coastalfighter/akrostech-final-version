@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
-import { render, screen } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
-import { Container, MeridianDivider, Section } from '@/components/ui/layout'
+import { Container, Rule, Section } from '@/components/ui/layout'
 import { expectNoAxeViolations } from '../a11y'
 
 describe('Container', () => {
@@ -13,34 +13,42 @@ describe('Container', () => {
     )
     const el = container.firstElementChild
     expect(el?.className).toContain('max-w-[1440px]')
-    expect(el?.className).toContain('px-4')
-    expect(el?.className).toContain('md:px-6')
+    expect(el?.className).toContain('px-5')
+    expect(el?.className).toContain('md:px-10')
   })
 })
 
 describe('Section', () => {
-  it('renders dark and light surfaces with data-surface', () => {
+  it('renders each tone with data-tone and its background', () => {
     const { container } = render(
       <>
-        <Section surface="dark">dark</Section>
-        <Section surface="light">light</Section>
+        <Section tone="ink">ink</Section>
+        <Section tone="raised">raised</Section>
+        <Section tone="forest">forest</Section>
       </>,
     )
-    const sections = container.querySelectorAll('section')
-    expect(sections[0]).toHaveAttribute('data-surface', 'dark')
-    expect(sections[0]?.className).toContain('bg-ink-950')
-    expect(sections[1]).toHaveAttribute('data-surface', 'light')
-    expect(sections[1]?.className).toContain('bg-paper-50')
+    const [ink, raised, forest] = Array.from(container.querySelectorAll('section'))
+    expect(ink).toHaveAttribute('data-tone', 'ink')
+    expect(ink?.className).toContain('bg-ink')
+    expect(raised?.className).toContain('bg-ink-2')
+    expect(forest?.className).toContain('bg-forest-deep')
   })
 
-  it('has no axe violations on either surface', async () => {
+  it('defaults to the ink tone and default padding', () => {
+    const { container } = render(<Section>content</Section>)
+    const section = container.querySelector('section')
+    expect(section).toHaveAttribute('data-tone', 'ink')
+    expect(section?.className).toContain('py-24')
+  })
+
+  it('has no axe violations', async () => {
     const { container } = render(
       <>
-        <Section surface="dark">
-          <p>Dark section text</p>
+        <Section tone="ink">
+          <p>Ink section text</p>
         </Section>
-        <Section surface="light">
-          <p>Light section text</p>
+        <Section tone="forest">
+          <p>Forest section text</p>
         </Section>
       </>,
     )
@@ -48,12 +56,9 @@ describe('Section', () => {
   })
 })
 
-describe('MeridianDivider', () => {
-  it('renders a decorative divider hidden from assistive tech', () => {
-    const { container } = render(<MeridianDivider />)
-    const divider = container.querySelector('.meridian-line')
-    expect(divider).toBeInTheDocument()
-    expect(divider).toHaveAttribute('aria-hidden', 'true')
-    expect(screen.queryByRole('separator')).not.toBeInTheDocument()
+describe('Rule', () => {
+  it('is decorative and hidden from assistive tech', () => {
+    const { container } = render(<Rule />)
+    expect(container.querySelector('hr')).toHaveAttribute('aria-hidden', 'true')
   })
 })

@@ -1,92 +1,104 @@
 import { ImageResponse } from 'next/og'
 
 /**
- * Shared OG image renderer — Meridian dark, brand mark, title, accent rule.
- * next/og can't use next/font, so this uses system font stacks with tight
- * tracking to echo the Bricolage Grotesque feel.
+ * Shared OG image renderer — forest field, rising arcs, cream serif title,
+ * lime accents. next/og can't use next/font, so a Georgia serif stack echoes
+ * the Fraunces display face.
  */
 
 export const OG_SIZE = { width: 1200, height: 630 }
 
-const ACCENT: Record<string, string> = {
-  web: '#8B7CFF',
-  rpo: '#FF9F6B',
-  va: '#4FD1C5',
-  acct: '#F6C76A',
-  legal: '#7CE3A8',
-  default: '#8B7CFF',
-}
+const INK = '#0A0B0A'
+const FOREST = '#112C23'
+const FOREST_MID = '#1B4537'
+const CREAM = '#F2EDE3'
+const LIME = '#C8F169'
+const SAGE = '#9CC0AD'
 
 export function ogImage({
   eyebrow,
   title,
-  accent = 'default',
   footer = 'akrosstech.com',
 }: {
   eyebrow: string
   title: string
+  /** Kept for call-site compatibility; every image uses the brand palette. */
   accent?: string
   footer?: string
 }) {
-  const color = ACCENT[accent] ?? ACCENT.default
+  const arcs = [140, 200, 260, 320, 380]
   return new ImageResponse(
-    (
-      <div
+    <div
+      style={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        backgroundColor: FOREST,
+        padding: '64px 80px',
+        position: 'relative',
+        fontFamily: 'Georgia, "Times New Roman", serif',
+      }}
+    >
+      <svg
+        width="900"
+        height="420"
+        viewBox="0 0 900 420"
+        style={{ position: 'absolute', right: '-160px', bottom: '0px' }}
+      >
+        {arcs.map((r, i) => (
+          <path
+            key={r}
+            d={`M ${450 - r} 420 A ${r} ${r} 0 0 1 ${450 + r} 420`}
+            fill="none"
+            stroke={FOREST_MID}
+            strokeWidth={30 - i * 3}
+          />
+        ))}
+        <circle cx="450" cy="420" r="96" fill={LIME} />
+      </svg>
+      <div style={{ display: 'flex', alignItems: 'baseline', color: CREAM, fontSize: '44px' }}>
+        akrostech<span style={{ color: LIME }}>.</span>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '22px', maxWidth: '900px' }}>
+        <span
+          style={{
+            color: SAGE,
+            fontFamily: 'system-ui, sans-serif',
+            fontSize: '22px',
+            letterSpacing: '0.22em',
+            textTransform: 'uppercase',
+          }}
+        >
+          {eyebrow}
+        </span>
+        <span
+          style={{
+            color: CREAM,
+            fontSize: '72px',
+            lineHeight: 1.02,
+            letterSpacing: '-0.03em',
+          }}
+        >
+          {title}
+        </span>
+      </div>
+      <span
         style={{
-          width: '100%',
-          height: '100%',
           display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          backgroundColor: '#070B16',
-          padding: '72px 80px',
-          fontFamily: 'system-ui, -apple-system, sans-serif',
+          color: INK,
+          backgroundColor: LIME,
+          borderRadius: '999px',
+          padding: '10px 22px',
+          alignSelf: 'flex-start',
+          fontFamily: 'system-ui, sans-serif',
+          fontSize: '20px',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <div
-            style={{
-              width: '44px',
-              height: '44px',
-              borderRadius: '12px',
-              background: `linear-gradient(135deg, ${color}, #4a4de0)`,
-            }}
-          />
-          <span
-            style={{ color: '#F4F1EA', fontSize: '28px', fontWeight: 700, letterSpacing: '0.08em' }}
-          >
-            AKROSTECH
-          </span>
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          <span
-            style={{
-              color,
-              fontSize: '22px',
-              fontWeight: 600,
-              letterSpacing: '0.22em',
-              textTransform: 'uppercase',
-            }}
-          >
-            {eyebrow}
-          </span>
-          <span
-            style={{
-              color: '#F4F1EA',
-              fontSize: '64px',
-              fontWeight: 800,
-              lineHeight: 1.05,
-              letterSpacing: '-0.02em',
-              maxWidth: '960px',
-            }}
-          >
-            {title}
-          </span>
-          <div style={{ width: '120px', height: '4px', backgroundColor: color, borderRadius: '2px' }} />
-        </div>
-        <span style={{ color: '#8A8FA3', fontSize: '20px', letterSpacing: '0.04em' }}>{footer}</span>
-      </div>
-    ),
+        {footer}
+      </span>
+    </div>,
     { ...OG_SIZE },
   )
 }

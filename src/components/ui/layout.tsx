@@ -1,45 +1,47 @@
-'use client'
-
-import { motion, useReducedMotion } from 'framer-motion'
 import * as React from 'react'
-import { cn, stripNativeDragHandlers } from '@/lib/utils'
+import { cn } from '@/lib/utils'
 
-/* ——— Container: 12-col grid shell, 1440px max, 24px/16px gutters ——— */
+/* ——— Container: 1440px max with responsive gutters ——— */
 
 function Container({ className, children, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={cn('mx-auto w-full max-w-[1440px] px-4 md:px-6', className)} {...props}>
+    <div className={cn('mx-auto w-full max-w-[1440px] px-5 md:px-10', className)} {...props}>
       {children}
     </div>
   )
 }
 
-/* ——— Section: dark/light surface with the 120–160 / 72–96 rhythm ——— */
+/* ——— Section: one of three tones, with a consistent vertical rhythm ——— */
 
 const sectionPaddings = {
-  default: 'py-[72px] md:py-[120px]',
-  roomy: 'py-[96px] md:py-[160px]',
-  compact: 'py-[48px] md:py-[72px]',
+  default: 'py-24 md:py-36',
+  roomy: 'py-28 md:py-48',
+  compact: 'py-16 md:py-24',
+  none: '',
 } as const
 
+const sectionTones = {
+  ink: 'bg-ink text-cream',
+  raised: 'bg-ink-2 text-cream',
+  forest: 'bg-forest-deep text-cream',
+} as const
+
+export type SectionTone = keyof typeof sectionTones
+
 function Section({
-  surface = 'dark',
+  tone = 'ink',
   padding = 'default',
   className,
   children,
   ...props
 }: React.HTMLAttributes<HTMLElement> & {
-  surface?: 'dark' | 'light'
+  tone?: SectionTone
   padding?: keyof typeof sectionPaddings
 }) {
   return (
     <section
-      data-surface={surface}
-      className={cn(
-        sectionPaddings[padding],
-        surface === 'dark' ? 'bg-ink-950 text-paper-50' : 'bg-paper-50 text-graphite-900',
-        className,
-      )}
+      data-tone={tone}
+      className={cn('relative', sectionPaddings[padding], sectionTones[tone], className)}
       {...props}
     >
       {children}
@@ -47,29 +49,46 @@ function Section({
   )
 }
 
-/* ——— MeridianDivider: the brand's signature line ——— */
+/* ——— Rule: a hairline divider, decorative ——— */
 
-function MeridianDivider({
+function Rule({ className }: { className?: string }) {
+  return <hr aria-hidden="true" className={cn('border-line border-0 border-t', className)} />
+}
+
+/*
+ * GridFill — empty cells that complete the last row of a hairline grid
+ * (gap-px over bg-line), so odd counts never leave a bare line-coloured hole.
+ * Pass the item count and the column counts used at md and lg.
+ */
+function GridFill({
+  count,
+  md = 2,
+  lg = 3,
   className,
-  animated = true,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement> & { animated?: boolean }) {
-  const reduceMotion = useReducedMotion()
-  // The divider is decorative: hidden from assistive tech, no separator role.
-  if (!animated || reduceMotion) {
-    return <div aria-hidden="true" className={cn('meridian-line', className)} {...props} />
-  }
+}: {
+  count: number
+  md?: number
+  lg?: number
+  className?: string
+}) {
+  const mdFill = (md - (count % md)) % md
+  const lgFill = (lg - (count % lg)) % lg
   return (
-    <motion.div
-      aria-hidden="true"
-      className={cn('meridian-line origin-left', className)}
-      initial={{ scaleX: 0 }}
-      whileInView={{ scaleX: 1 }}
-      viewport={{ once: true, margin: '-80px' }}
-      transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-      {...stripNativeDragHandlers(props)}
-    />
+    <>
+      {Array.from({ length: Math.max(mdFill, lgFill) }, (_, i) => (
+        <li
+          key={i}
+          aria-hidden="true"
+          className={cn(
+            'hidden',
+            i < mdFill && 'md:block',
+            i < lgFill ? 'lg:block' : 'lg:hidden',
+            className,
+          )}
+        />
+      ))}
+    </>
   )
 }
 
-export { Container, Section, MeridianDivider, sectionPaddings }
+export { Container, Section, Rule, GridFill, sectionPaddings, sectionTones }

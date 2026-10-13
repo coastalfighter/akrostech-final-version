@@ -20,21 +20,19 @@ export function FieldSelect({
   placeholder,
   options,
   id,
-  surface = 'dark',
 }: {
   value: string
   onValueChange: (value: string) => void
   placeholder?: string
   options: { value: string; label: string }[]
   id?: string
-  surface?: 'light' | 'dark'
 }) {
   return (
     <Select value={value} onValueChange={onValueChange}>
-      <SelectTrigger id={id} data-surface={surface}>
+      <SelectTrigger id={id}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
-      <SelectContent data-surface={surface}>
+      <SelectContent>
         {options.map((option) => (
           <SelectItem key={option.value} value={option.value}>
             {option.label}

@@ -8,13 +8,15 @@
 
 // .velite is gitignored and generated; its index.d.ts provides the types.
 import {
+  careers as cmsCareers,
   industries as cmsIndustries,
   insights as cmsInsights,
+  legal as cmsLegal,
   services as cmsServices,
 } from '../../.velite'
-import type { Industry, Insight, Service } from '../../.velite'
+import type { Industry, Insight, Legal, Role, Service } from '../../.velite'
 
-export type { Industry, Insight, Service }
+export type { Industry, Insight, Legal, Role, Service }
 
 function byOrder(a: { order: number }, b: { order: number }) {
   return a.order - b.order
@@ -40,4 +42,16 @@ export const cmsInsightsByDate: Insight[] = [...cmsInsights].sort((a, b) =>
 
 export function cmsGetInsight(slug: string): Insight | undefined {
   return cmsInsights.find((i) => i.slug === slug)
+}
+
+/** Open roles, newest first. */
+export const cmsRolesByDate: Role[] = [...cmsCareers].sort((a, b) =>
+  b.posted.localeCompare(a.posted),
+)
+
+/** Legal pages (privacy, terms, cookies, SMS) served at /{slug}. */
+export const cmsLegalAll: Legal[] = cmsLegal
+
+export function cmsGetLegal(slug: string): Legal | undefined {
+  return cmsLegal.find((l) => l.slug === slug)
 }

@@ -5,6 +5,55 @@ brief is silent, we picked what a top-tier studio would ship and wrote down why.
 
 ---
 
+## Redesign — Bold editorial rebuild (2026-10-13)
+
+The client rejected the M0–M6 visual design outright ("not a single thing"), asked for a full
+rebuild — design, copy and structure — in a bold, modern-startup direction, with rebrandgurus.com as
+the reference. Backend, content collections, forms, consent, SEO and security were kept; every
+visible layer was rebuilt.
+
+### Design
+
+- **Direction taken from the reference, not copied:** dark canvas, deep forest green, a soft display
+  serif with italic accents, a fixed vertical side rail, word marquees, a spinning round CTA,
+  numbered sections, round industry badges, arch-framed team portraits. Our own motif — the rising
+  **arcs** (a sun coming up over a team in another time zone) — ties it together.
+- **Palette:** `ink` / `forest` / `cream` / `sage`, with **lime** reserved for actions. All text
+  pairs pass WCAG AA (axe scans in Playwright, real browser).
+- **Type:** Fraunces + Space Grotesk replace Bricolage/Instrument Serif/Geist.
+- **Removed:** the three.js globe, GSAP/Lenis smooth scrolling, the gradient page wipe, the film
+  grain overlay and the styleguide route. Dependencies dropped accordingly.
+- **Motion is CSS-first:** hero entrances are CSS keyframes and scroll reveals use scroll-driven
+  animations as progressive enhancement. The previous design hid headings at `opacity: 0` until
+  JavaScript revealed them, which left pages blank whenever hydration failed (it always did — see
+  below).
+
+### Structure and copy
+
+- **Home:** hero ("Your team, on your clock.") with live Wilmington/India clock → service and
+  principle marquees → who we are → five service rows → the 24-hour handoff → why us (six
+  principles + four factual figures) → process → industries → insights → FAQ → CTA.
+- **Inner pages** share one `PageHero` and one `CtaBand`; service pages keep all CMS content in a
+  new before/after → included → process → models → tools → FAQ flow.
+- **Added:** `/privacy-policy`, `/terms`, `/cookie-policy`, `/sms-terms` (footer links were 404s), a
+  branded 404, careers roles read from the CMS, an icon.
+- **No invented proof:** figures on the home page are facts (5 services, 4 time zones, 1 client per
+  professional, 24h option); metrics stay behind the `stats` flag.
+- **Fixed:** literal `\u2019` sequences rendered in JSX text across several pages.
+
+### Bugs found and fixed
+
+- **CSP blocked hydration on every page.** The policy carried a per-request nonce, and browsers
+  ignore `'unsafe-inline'` whenever a nonce is present — but the pages are statically prerendered,
+  so Next's inline scripts could never carry it. The nonce is gone (nothing used it); an E2E test
+  now asserts the CSP has no nonce and that a client-only interaction works.
+- **Env validation crashed in the browser** once hydration ran: `safeParse(process.env)` sees an
+  empty object client-side. The loader now reads every variable by literal name (so Next inlines
+  `NEXT_PUBLIC_*`), and `next.config.ts` inlines the resolved site URL, including the Vercel
+  fallback.
+
+---
+
 ## M6 — Launch readiness (2026-10-12)
 
 ### Security re-audit

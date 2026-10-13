@@ -38,13 +38,10 @@ function Field({
   return (
     <FieldContext.Provider value={{ id: inputId, error }}>
       <div className={cn('flex flex-col gap-2', className)} {...props}>
-        <label
-          htmlFor={inputId}
-          className="text-paper-50 data-[surface=light]:text-graphite-900 text-sm font-medium"
-        >
+        <label htmlFor={inputId} className="text-cream text-sm font-medium">
           {label}
           {required && (
-            <span aria-hidden="true" className="text-signal-coral ml-1">
+            <span aria-hidden="true" className="text-coral ml-1">
               *
             </span>
           )}
@@ -60,12 +57,12 @@ function Field({
             : child,
         )}
         {hint && !error && (
-          <p id={hintId} className="text-sm text-mist-400 data-[surface=light]:text-slate-600">
+          <p id={hintId} className="text-fog text-sm">
             {hint}
           </p>
         )}
         {error && (
-          <p id={errorId} role="alert" className="text-signal-coral text-sm font-medium">
+          <p id={errorId} role="alert" className="text-coral text-sm font-medium">
             {error}
           </p>
         )}
@@ -77,7 +74,7 @@ function Field({
 /* ——— Input / Textarea ——— */
 
 const inputClass =
-  'w-full rounded-[12px] border border-line-dark bg-ink-950 px-4 py-3 text-paper-50 placeholder:text-mist-400/60 transition-colors duration-150 hover:border-indigo-glow/50 focus:border-indigo-glow focus:outline-none data-[surface=light]:border-graphite-900/20 data-[surface=light]:bg-white data-[surface=light]:text-graphite-900 data-[surface=light]:placeholder:text-slate-600/60 aria-[invalid=true]:border-signal-coral min-h-[44px]'
+  'w-full rounded-[12px] border border-line bg-ink px-4 py-3 text-cream placeholder:text-mute transition-colors duration-150 hover:border-cream/40 focus:border-lime focus:outline-none     aria-[invalid=true]:border-coral min-h-[44px]'
 
 const Input = React.forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>(
   function Input({ className, ...props }, ref) {

@@ -2,26 +2,26 @@ import type { Metadata } from 'next'
 import { CalendlyEmbed } from '@/components/booking/calendly-embed'
 import { PageHero } from '@/components/sections/page-hero'
 import { Container, Section } from '@/components/ui/layout'
-import { Eyebrow, Heading } from '@/components/ui/typography'
+import { Eyebrow } from '@/components/ui/typography'
 
 export const metadata: Metadata = {
   title: 'Book a 30-Minute Call',
   description:
-    'Book a 30-minute call with Akrostech Consulting. No commitment — tell us what hurts, we\u2019ll tell you honestly whether we\u2019re the right fix.',
+    'Book a 30-minute call with Akrostech Consulting. No commitment — tell us what hurts, and we’ll tell you honestly whether we’re the right fix.',
 }
 
 const PREP = [
   {
     title: 'What hurts most',
-    body: 'One or two sentences about the problem. \u201CWe can\u2019t hire fast enough\u201D beats a slide deck.',
+    body: 'One or two sentences about the problem. “We can’t hire fast enough” beats a slide deck.',
   },
   {
-    title: 'What \u201Cdone\u201D looks like',
+    title: 'What “done” looks like',
     body: 'How will you know this worked? A number, a date, a feeling — all valid.',
   },
   {
     title: 'Your timeline',
-    body: 'Yesterday, next quarter, or \u201Cjust exploring\u201D — we\u2019ll calibrate honestly.',
+    body: 'Yesterday, next quarter or “just exploring” — we’ll calibrate honestly.',
   },
 ]
 
@@ -32,36 +32,34 @@ export default function BookPage() {
         eyebrow="Book a call"
         title={
           <>
-            Thirty minutes. <span className="font-serif-accent italic">No pitch.</span>
+            Thirty minutes. <span className="accent">No pitch.</span>
           </>
         }
-        lead="Tell us what hurts most. We\u2019ll tell you honestly whether we\u2019re the right fix — and what it would cost."
-        variant="default"
+        lead="Tell us what hurts most. We’ll tell you honestly whether we’re the right fix — and what it would cost."
+        word="Let's talk"
         crumbs={[{ label: 'Book a call' }]}
       />
-      <Section surface="light">
+      <Section tone="ink" className="pt-16 md:pt-24">
         <Container>
-          <div className="grid gap-10 lg:grid-cols-2">
+          <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
             <div>
               <Eyebrow>How to prepare</Eyebrow>
-              <Heading as="h2" className="mt-4">
-                Three things worth thinking about
-              </Heading>
-              <div className="mt-8 space-y-6">
+              <h2 className="font-display mt-6 text-4xl tracking-[-0.025em] md:text-5xl">
+                Three things <span className="accent">worth a thought.</span>
+              </h2>
+              <ol className="mt-10 space-y-8">
                 {PREP.map((item, i) => (
-                  <div key={item.title} className="flex gap-5">
-                    <span className="tnum font-display text-akros-indigo text-3xl font-bold">
+                  <li key={item.title} className="border-line flex gap-6 border-t pt-8">
+                    <span className="tnum font-display text-lime text-4xl">
                       {String(i + 1).padStart(2, '0')}
                     </span>
                     <div>
-                      <h3 className="font-display text-graphite-900 text-lg font-semibold">
-                        {item.title}
-                      </h3>
-                      <p className="mt-1 leading-relaxed text-slate-600">{item.body}</p>
+                      <h3 className="font-display text-2xl">{item.title}</h3>
+                      <p className="text-fog mt-2 leading-relaxed">{item.body}</p>
                     </div>
-                  </div>
+                  </li>
                 ))}
-              </div>
+              </ol>
             </div>
             <CalendlyEmbed />
           </div>
