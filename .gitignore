@@ -1,0 +1,35 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.*
+
+# next.js
+.next/
+out/
+dist/
+build/
+next-env.d.ts
+
+# testing
+coverage/
+test-results/
+playwright-report/
+playwright/.cache/
+
+# misc
+.DS_Store
+*.log
+*.pem
+.vercel
+.turbo
+
+# local env files (never commit secrets)
+.env
+.env*.local
+!.env.example
+
+# typescript
+*.tsbuildinfo
+
+# velite content cache (added in M1)
+.velite/

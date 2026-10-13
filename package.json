@@ -1,0 +1,86 @@
+{
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "dependencies": {
+    "@phosphor-icons/react": "2.1.10",
+    "@radix-ui/react-accordion": "1.2.12",
+    "@radix-ui/react-checkbox": "1.4.0",
+    "@radix-ui/react-label": "2.1.17",
+    "@radix-ui/react-select": "2.4.0",
+    "@radix-ui/react-slot": "1.5.0",
+    "@react-three/fiber": "9.8.1",
+    "class-variance-authority": "0.7.1",
+    "clsx": "2.1.1",
+    "framer-motion": "14.1.0",
+    "gsap": "3.15.0",
+    "lenis": "1.3.26",
+    "next": "16.4.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "resend": "4.7.0",
+    "tailwind-merge": "3.7.0",
+    "three": "0.186.1",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@commitlint/cli": "21.2.3",
+    "@commitlint/config-conventional": "21.2.3",
+    "@lhci/cli": "0.15.1",
+    "@playwright/test": "1.64.0",
+    "@tailwindcss/postcss": "4.3.3",
+    "@testing-library/dom": "10.4.2",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "16.3.3",
+    "@testing-library/user-event": "14.6.1",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@types/three": "0.186.0",
+    "axe-core": "^4.14.0",
+    "eslint": "9.39.5",
+    "eslint-config-next": "16.4.0",
+    "husky": "9.1.7",
+    "jsdom": "30.1.2",
+    "lint-staged": "17.6.0",
+    "prettier": "3.9.10",
+    "prettier-plugin-tailwindcss": "0.8.1",
+    "tailwindcss": "4.3.3",
+    "typescript": "5.9.3",
+    "velite": "0.4.0",
+    "vitest": "5.0.4",
+    "vitest-axe": "0.1.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,mjs,jsx,json,md,css}": [
+      "prettier --write"
+    ],
+    "*.{ts,tsx}": [
+      "eslint --fix"
+    ]
+  },
+  "name": "akrostech-web",
+  "packageManager": "pnpm@12.11.2",
+  "private": true,
+  "scripts": {
+    "build": "pnpm content && next build",
+    "dev": "next dev",
+    "format": "prettier --write .",
+    "lint": "eslint .",
+    "prepare": "husky",
+    "start": "next start",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "content": "velite",
+    "content:watch": "velite --watch",
+    "predev": "pnpm content",
+    "pretypecheck": "pnpm content",
+    "pretest": "pnpm content",
+    "prelint": "pnpm content"
+  },
+  "version": "0.1.0"
+}

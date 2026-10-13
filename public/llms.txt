@@ -1,0 +1,40 @@
+# Akrostech
+
+> Akrostech Consulting LLC gives U.S. businesses dedicated offshore professionals and a
+> web studio based in India, working U.S. business hours (EST, CST, MST, PST). Services:
+> website development, recruitment process outsourcing, virtual assistance, accounting
+> outsourcing, and legal process outsourcing. Model: dedicated full-time/part-time
+> resources, project-based work, and scalable teams — vetted for skill, English, and
+> reliability, under NDAs with measured quality reporting.
+
+## Services (in order)
+
+- [Website Development](https://www.akrosstech.com/services/website-development): Marketing sites, web apps, e-commerce, CMS builds, redesigns, UI/UX, technical SEO, hosting, and monthly care plans. Fixed-scope projects or dedicated developers/designers.
+- [Recruitment Process Outsourcing](https://www.akrosstech.com/services/recruitment-process-outsourcing): Full-cycle or modular recruiting — sourcing, screening, ATS management, interview scheduling, offer and onboarding support. Industries: IT, healthcare, BFSI, engineering/manufacturing, corporate/admin, sales/customer service.
+- [Virtual Assistance](https://www.akrostech.com/services/virtual-assistance): Dedicated VAs for founders and teams — inbox and calendar, customer support (chat/email/phone), social media, content support, data entry/CRM hygiene, research, personal assistance.
+- [Accounting Outsourcing](https://www.akrostech.com/services/accounting-outsourcing): Bookkeeping, AP/AR, invoicing, payroll, month-end close, reconciliations, 1099/sales-tax prep support alongside the client's CPA. Tools: QuickBooks, Xero, Zoho Books.
+- [Legal Process Outsourcing](https://www.akrostech.com/services/legal-process-outsourcing): Paralegal support for U.S. law firms — intake, document prep, records retrieval, discovery support, calendaring, demand-letter drafting — under attorney supervision. Not a law firm; no legal advice.
+
+## Key facts
+
+- Legal name: Akrostech Consulting LLC. Brand: Akrostech. Domain: akrosstech.com.
+- Address: 1207 Delaware Ave, Unit 2877, Wilmington, DE 19806, USA.
+- Phone: +1 (332) 287-0846.
+- Delivery: India-based professionals aligned to U.S. time zones, plus overnight follow-the-sun.
+- Markets: U.S. startups, SMBs, staffing agencies, law firms, enterprises.
+- Differentiators: dedicated (not shared) professionals; U.S.-hours overlap; vetting for skill, English, reliability; NDAs and access controls; KPI reporting and reviews.
+- Unconfirmed figures (cost-savings range, onboarding days, client counts) are marked {{CONFIRM}} on the site and are not published as claims.
+
+## Contact
+
+- Book: https://www.akrosstech.com/book (30-minute call)
+- Contact: https://www.akrosstech.com/contact
+- LinkedIn: https://www.linkedin.com/company/akrostech-consulting
+- Email: {{CONFIRM}} canonical address pending client confirmation.
+
+## Optional
+
+- [How it works](https://www.akrosstech.com/how-it-works): engagement process and onboarding timeline.
+- [Pricing](https://www.akrosstech.com/pricing): engagement models and savings calculator.
+- [Insights](https://www.akrosstech.com/insights): guides on outsourcing costs and hiring.
+- [FAQ](https://www.akrosstech.com/faq): every common question in one place.
