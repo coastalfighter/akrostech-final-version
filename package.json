@@ -47,7 +47,7 @@
     "prettier": "3.9.10",
     "prettier-plugin-tailwindcss": "0.8.1",
     "tailwindcss": "4.3.3",
-    "typescript": "5.9.3",
+    "typescript": "6.0.3",
     "velite": "0.4.0",
     "vitest": "5.0.4",
     "vitest-axe": "0.1.0"
