@@ -25,7 +25,6 @@ export default function FaqPage() {
           </>
         }
         lead="The questions every prospect asks, answered the way we’d answer them on a call."
-        word="Questions"
         crumbs={[{ label: 'FAQ' }]}
       />
       <Section tone="ink" className="pt-16 md:pt-24">

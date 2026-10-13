@@ -34,7 +34,7 @@ export function ConsentBanner() {
         exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 24 }}
         transition={{ duration: DUR_BASE, ease: EASE_OUT_EXPO }}
       >
-        <div className="border-line bg-ink-3/95 rounded-[var(--radius-card)] border p-6 shadow-[0_24px_80px_-20px_rgba(0,0,0,0.7)] backdrop-blur-xl">
+        <div className="border-line bg-ink-3 rounded-[var(--radius-card)] border p-6 shadow-[0_24px_80px_-20px_rgba(0,0,0,0.7)]">
           <h2 className="font-display text-cream text-xl">A quick word on cookies</h2>
           <p className="text-fog mt-2 text-[15px] leading-relaxed">
             We use necessary cookies to run the site. With your permission, we&apos;ll also use

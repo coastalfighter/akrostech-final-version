@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Reveal3D } from '@/components/motion/reveal-3d'
 import { Arcs } from '@/components/brand/arcs'
 import { CtaBand } from '@/components/sections/cta-band'
 import { PageHero } from '@/components/sections/page-hero'
@@ -57,7 +58,6 @@ export default function AboutPage() {
           </>
         }
         lead="Akrostech Consulting LLC is a Wilmington, Delaware company with delivery teams in India — built on one belief: U.S. businesses deserve offshore talent that works like in-house talent."
-        word="About"
         crumbs={[{ label: 'About' }]}
       />
 
@@ -103,14 +103,15 @@ export default function AboutPage() {
           />
           <ol className="border-line mt-16 border-t">
             {VALUES.map((v, i) => (
-              <li
+              <Reveal3D
+                as="li"
                 key={v.title}
                 className="border-line grid gap-4 border-b py-10 md:grid-cols-[80px_1fr_1fr] md:items-baseline md:gap-10"
               >
                 <span className="tnum text-sage text-sm">{String(i + 1).padStart(2, '0')}</span>
                 <h3 className="font-display text-3xl tracking-[-0.02em] md:text-4xl">{v.title}</h3>
                 <p className="text-fog text-lg leading-relaxed">{v.body}</p>
-              </li>
+              </Reveal3D>
             ))}
           </ol>
         </Container>

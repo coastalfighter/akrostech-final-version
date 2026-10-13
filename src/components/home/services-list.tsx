@@ -1,5 +1,7 @@
 import { ArrowUpRight } from '@phosphor-icons/react/dist/ssr'
 import Link from 'next/link'
+import { Reveal3D } from '@/components/motion/reveal-3d'
+import { SERVICE_ICONS } from '@/components/services/service-icons'
 import { Container, Section } from '@/components/ui/layout'
 import { SectionHeader } from '@/components/ui/typography'
 import { services } from '@/data/services'
@@ -14,8 +16,9 @@ const ROW_TITLE: Record<string, string> = {
 }
 
 /**
- * Services — five oversized rows. Hover floods the row with forest green,
- * slides the name, and lights the arrow lime.
+ * Services — five oversized rows that hinge up in 3D as they scroll in.
+ * Hover floods the row with forest green, slides the title and lights the
+ * arrow; the service icon rises into the row.
  */
 export function ServicesList() {
   return (
@@ -33,19 +36,25 @@ export function ServicesList() {
         />
         <ul className="border-line mt-16 border-t">
           {services.map((s, i) => (
-            <li key={s.slug} className="border-line border-b">
+            <Reveal3D as="li" key={s.slug} className="border-line border-b">
               <Link
                 href={`/services/${s.slug}`}
-                className="group/row relative grid items-center gap-4 overflow-hidden py-8 md:grid-cols-[80px_1.2fr_1fr_auto] md:gap-8 md:py-10"
+                className="group/row relative grid items-center gap-4 overflow-hidden py-8 md:grid-cols-[64px_auto_1.2fr_1fr_auto] md:gap-8 md:py-10"
               >
                 <span
                   aria-hidden="true"
-                  className="bg-forest-deep absolute inset-0 -z-0 origin-bottom scale-y-0 transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover/row:scale-y-100"
+                  className="bg-forest-deep absolute inset-0 origin-bottom scale-y-0 transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover/row:scale-y-100"
                 />
                 <span className="tnum text-sage relative text-sm md:pl-4">
                   {String(i + 1).padStart(2, '0')}
                 </span>
-                <span className="font-display relative text-4xl leading-none tracking-[-0.03em] transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover/row:translate-x-3 md:text-6xl">
+                <span
+                  aria-hidden="true"
+                  className="bg-lime text-ink relative hidden size-12 translate-y-3 items-center justify-center rounded-full opacity-0 transition-[opacity,transform] duration-500 ease-[var(--ease-out-expo)] group-hover/row:translate-y-0 group-hover/row:opacity-100 md:flex [&_svg]:size-5"
+                >
+                  {SERVICE_ICONS[s.accent]}
+                </span>
+                <span className="font-display relative text-4xl leading-none tracking-[-0.03em] transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover/row:translate-x-2 md:text-6xl">
                   {ROW_TITLE[s.slug] ?? s.shortName}
                 </span>
                 <span className="relative max-w-[44ch]">
@@ -63,7 +72,7 @@ export function ServicesList() {
                   <ArrowUpRight weight="bold" className="size-5" />
                 </span>
               </Link>
-            </li>
+            </Reveal3D>
           ))}
         </ul>
       </Container>

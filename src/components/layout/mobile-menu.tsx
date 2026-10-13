@@ -6,6 +6,7 @@ import Link from 'next/link'
 import * as React from 'react'
 import { Arcs } from '@/components/brand/arcs'
 import { Wordmark } from '@/components/brand/wordmark'
+import { getLenis } from '@/components/providers/smooth-scroll'
 import { siteConfig } from '@/config/site'
 import { EASE_OUT_EXPO } from '@/lib/motion'
 import { NAV, SECONDARY_NAV, SERVICE_NAV } from './nav'
@@ -48,9 +49,11 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
 
     document.addEventListener('keydown', onKey)
     document.body.style.overflow = 'hidden'
+    getLenis()?.stop()
     return () => {
       document.removeEventListener('keydown', onKey)
       document.body.style.overflow = ''
+      getLenis()?.start()
       opener?.focus?.()
     }
   }, [open, onClose])

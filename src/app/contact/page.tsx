@@ -46,7 +46,6 @@ export default function ContactPage() {
           </>
         }
         lead="Call, book or write — a human answers. Messages go straight to our inbox and are usually answered within one business day."
-        word="Hello"
         crumbs={[{ label: 'Contact' }]}
       />
 

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Marquee } from '@/components/brand/marquee'
+import { Reveal3D } from '@/components/motion/reveal-3d'
 import { CtaBand } from '@/components/sections/cta-band'
 import { FaqAccordion } from '@/components/sections/faq-accordion'
 import { PageHero } from '@/components/sections/page-hero'
@@ -45,7 +46,6 @@ export function ServiceTemplate({ service }: { service: ServiceData }) {
         eyebrow={`Service ${String(index + 1).padStart(2, '0')} — ${service.name}`}
         title={service.heroTitle}
         lead={service.heroLead}
-        word={service.shortName}
         crumbs={[{ label: 'Services', href: '/services' }, { label: service.name }]}
       >
         <div className="flex flex-wrap gap-3">
@@ -86,7 +86,7 @@ export function ServiceTemplate({ service }: { service: ServiceData }) {
           />
           <div className="mt-16 space-y-5">
             {service.problems.map((p, i) => (
-              <div
+              <Reveal3D
                 key={i}
                 className="border-line grid overflow-hidden rounded-[var(--radius-card)] border md:grid-cols-2"
               >
@@ -98,7 +98,7 @@ export function ServiceTemplate({ service }: { service: ServiceData }) {
                   <p className="text-lime text-xs tracking-[0.22em] uppercase">After</p>
                   <p className="text-cream mt-4 text-lg leading-relaxed">{p.after}</p>
                 </div>
-              </div>
+              </Reveal3D>
             ))}
           </div>
         </Container>
@@ -143,7 +143,7 @@ export function ServiceTemplate({ service }: { service: ServiceData }) {
           />
           <ol className="mt-20 grid gap-12 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
             {service.process.map((step, i) => (
-              <li key={step.title}>
+              <Reveal3D as="li" variant="flip" index={i} key={step.title}>
                 <span
                   aria-hidden="true"
                   className="text-outline tnum font-display block text-[6.5rem] leading-[0.8] tracking-[-0.05em]"
@@ -154,7 +154,7 @@ export function ServiceTemplate({ service }: { service: ServiceData }) {
                   <span className="sr-only">{`Step ${i + 1}:`}</span> {step.title}
                 </h3>
                 <p className="text-fog mt-3 leading-relaxed">{step.body}</p>
-              </li>
+              </Reveal3D>
             ))}
           </ol>
         </Container>

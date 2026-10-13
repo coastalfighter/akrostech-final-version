@@ -42,7 +42,6 @@ export default function CareersPage() {
           </>
         }
         lead="Join the India delivery team behind U.S. businesses: dedicated roles, real clients, and growth you can plan around."
-        word="Careers"
         crumbs={[{ label: 'Careers' }]}
       />
 

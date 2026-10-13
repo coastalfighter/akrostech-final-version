@@ -27,7 +27,6 @@ export default function InsightsPage() {
           </>
         }
         lead="Guides for buyers, not brochureware. Every article answers one question completely — the question you’d ask on a sales call."
-        word="Insights"
         crumbs={[{ label: 'Insights' }]}
       />
 

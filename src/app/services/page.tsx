@@ -26,7 +26,6 @@ export default function ServicesIndexPage() {
           </>
         }
         lead="A professional or team dedicated to you, vetted three ways, working your U.S. hours, measured on quality — whatever the work."
-        word="Services"
         crumbs={[{ label: 'Services' }]}
       />
 

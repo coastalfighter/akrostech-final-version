@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Reveal3D } from '@/components/motion/reveal-3d'
 import { Container, Section } from '@/components/ui/layout'
 import { SectionHeader } from '@/components/ui/typography'
 import { industries } from '@/data/site'
@@ -21,7 +22,7 @@ export function Industries() {
         />
         <ul className="mx-auto mt-20 grid max-w-6xl grid-cols-2 place-items-center gap-4 sm:grid-cols-3 lg:grid-cols-6">
           {industries.map((industry, i) => (
-            <li key={industry.slug} className={i % 2 ? 'lg:translate-y-12' : ''}>
+            <Reveal3D as="li" variant="zoom" index={i} key={industry.slug}>
               <Link
                 href={`/industries#${industry.slug}`}
                 className="group/b border-line bg-ink-2 hover:border-lime hover:bg-lime flex size-40 flex-col items-center justify-center rounded-full border p-5 text-center transition-[background-color,border-color,transform] duration-500 ease-[var(--ease-out-expo)] hover:-translate-y-2 md:size-44"
@@ -33,7 +34,7 @@ export function Industries() {
                   {industry.name}
                 </span>
               </Link>
-            </li>
+            </Reveal3D>
           ))}
         </ul>
       </Container>

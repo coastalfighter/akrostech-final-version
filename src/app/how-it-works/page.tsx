@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Reveal3D } from '@/components/motion/reveal-3d'
 import { CtaBand } from '@/components/sections/cta-band'
 import { PageHero } from '@/components/sections/page-hero'
 import { Container, Section } from '@/components/ui/layout'
@@ -59,7 +60,6 @@ export default function HowItWorksPage() {
           </>
         }
         lead="Working with Akrostech feels like hiring — because it is. You interview, you approve, you manage. We handle sourcing, vetting, payroll and backup coverage."
-        word="Process"
         crumbs={[{ label: 'How it works' }]}
       />
 
@@ -67,7 +67,8 @@ export default function HowItWorksPage() {
         <Container>
           <ol className="border-line border-t">
             {STEPS.map((step, i) => (
-              <li
+              <Reveal3D
+                as="li"
                 key={step.title}
                 className="border-line grid gap-6 border-b py-12 md:grid-cols-[180px_1fr_1.2fr] md:gap-12 md:py-16"
               >
@@ -86,7 +87,7 @@ export default function HowItWorksPage() {
                 <p className="text-fog max-w-[52ch] self-end text-lg leading-relaxed">
                   {step.body}
                 </p>
-              </li>
+              </Reveal3D>
             ))}
           </ol>
         </Container>
@@ -106,7 +107,9 @@ export default function HowItWorksPage() {
           />
           <div className="mt-16 grid gap-5 md:grid-cols-3">
             {GATES.map((g, i) => (
-              <div
+              <Reveal3D
+                variant="flip"
+                index={i}
                 key={g.title}
                 className="border-cream/15 bg-ink/30 rounded-[var(--radius-card)] border p-8 md:p-10"
               >
@@ -115,7 +118,7 @@ export default function HowItWorksPage() {
                 </span>
                 <h3 className="font-display mt-10 text-3xl tracking-[-0.02em]">{g.title}</h3>
                 <p className="text-cream/75 mt-3 leading-relaxed">{g.body}</p>
-              </div>
+              </Reveal3D>
             ))}
           </div>
         </Container>

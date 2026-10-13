@@ -1,3 +1,6 @@
+import { CountUp } from '@/components/motion/count-up'
+import { Parallax } from '@/components/motion/parallax'
+import { Reveal3D } from '@/components/motion/reveal-3d'
 import { Container, Section } from '@/components/ui/layout'
 import { Eyebrow } from '@/components/ui/typography'
 
@@ -35,10 +38,10 @@ const PRINCIPLES = [
 ]
 
 const FACTS = [
-  { value: '5', label: 'Services under one roof' },
-  { value: '4', label: 'U.S. time zones covered' },
-  { value: '1', label: 'Client per professional' },
-  { value: '24h', label: 'Follow-the-sun option' },
+  { value: 5, suffix: '', label: 'Services under one roof' },
+  { value: 4, suffix: '', label: 'U.S. time zones covered' },
+  { value: 1, suffix: '', label: 'Client per professional' },
+  { value: 24, suffix: 'h', label: 'Follow-the-sun option' },
 ]
 
 export function Why() {
@@ -72,7 +75,7 @@ export function Why() {
             <div key={f.label} className="border-line flex flex-col-reverse border-l pl-6">
               <dt className="text-fog mt-4 max-w-[16ch]">{f.label}</dt>
               <dd className="tnum font-display text-7xl leading-none tracking-[-0.04em] md:text-8xl">
-                {f.value}
+                <CountUp value={f.value} suffix={f.suffix} />
               </dd>
             </div>
           ))}

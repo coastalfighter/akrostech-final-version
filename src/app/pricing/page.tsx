@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Reveal3D } from '@/components/motion/reveal-3d'
 import { Check } from '@phosphor-icons/react/dist/ssr'
 import Link from 'next/link'
 import { CtaBand } from '@/components/sections/cta-band'
@@ -55,7 +56,6 @@ export default function PricingPage() {
           </>
         }
         lead="Every quote shows its work: the benchmark, our rate and what’s included. Fixed in writing before work starts — never hourly fog."
-        word="Pricing"
         crumbs={[{ label: 'Pricing' }]}
       >
         <Button asChild size="lg">
@@ -78,7 +78,9 @@ export default function PricingPage() {
             {MODELS.map((m, i) => {
               const featured = i === 0
               return (
-                <div
+                <Reveal3D
+                  variant="flip"
+                  index={i}
                   key={m.title}
                   className={cn(
                     'flex flex-col rounded-[var(--radius-card)] p-8 md:p-10',
@@ -121,7 +123,7 @@ export default function PricingPage() {
                       </li>
                     ))}
                   </ul>
-                </div>
+                </Reveal3D>
               )
             })}
           </div>

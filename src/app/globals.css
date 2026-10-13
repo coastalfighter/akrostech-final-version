@@ -52,6 +52,19 @@ html {
   background-color: var(--color-ink);
 }
 
+/* Lenis smooth scroll: it eases the scroll itself, so native smoothing must
+   step aside; a stopped instance (menu open) locks the page. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
 body {
   background-color: var(--color-ink);
   color: var(--color-cream);
@@ -182,6 +195,15 @@ body {
   to {
     opacity: 1;
     transform: none;
+  }
+}
+
+@keyframes scroll-cue {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(200%);
   }
 }
 

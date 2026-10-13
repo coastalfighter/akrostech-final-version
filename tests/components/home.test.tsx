@@ -24,6 +24,8 @@ describe('Home hero', () => {
     expect(screen.getByText('Wilmington')).toBeInTheDocument()
     expect(screen.getByText('India')).toBeInTheDocument()
     expect(screen.getByText(/team online now/i)).toBeInTheDocument()
+    // Without WebGL (jsdom) the static globe stands in for the 3D scene.
+    expect(screen.getByRole('img', { name: /globe with flight paths/i })).toBeInTheDocument()
     await expectNoAxeViolations(container)
   })
 })

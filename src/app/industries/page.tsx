@@ -24,7 +24,6 @@ export default function IndustriesPage() {
           </>
         }
         lead="Outsourcing isn’t one-size-fits-all. Here’s how each service bends toward the work your industry actually does."
-        word="Industries"
         crumbs={[{ label: 'Industries' }]}
       />
 

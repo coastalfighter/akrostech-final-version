@@ -1,4 +1,5 @@
 import { LinkedinLogo } from '@phosphor-icons/react/dist/ssr'
+import { Parallax } from '@/components/motion/parallax'
 import Link from 'next/link'
 import { CookieSettingsLink } from '@/components/consent/cookie-settings-link'
 import { Container } from '@/components/ui/layout'
@@ -86,23 +87,25 @@ export function SiteFooter() {
 
       {/* Oversized sign-off. SVG text scales with the viewport and, being
           decorative, stays out of the accessibility tree and contrast checks. */}
-      <svg
-        aria-hidden="true"
-        viewBox="0 0 1000 200"
-        className="pointer-events-none -mb-[1.5%] block w-full select-none"
-      >
-        <text
-          x="500"
-          y="172"
-          textAnchor="middle"
-          textLength="960"
-          lengthAdjust="spacingAndGlyphs"
-          className="fill-forest font-display"
-          fontSize="230"
+      <Parallax speed={-0.18}>
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 1000 200"
+          className="pointer-events-none -mb-[1.5%] block w-full select-none"
         >
-          akrostech
-        </text>
-      </svg>
+          <text
+            x="500"
+            y="172"
+            textAnchor="middle"
+            textLength="960"
+            lengthAdjust="spacingAndGlyphs"
+            className="fill-forest font-display"
+            fontSize="230"
+          >
+            akrostech
+          </text>
+        </svg>
+      </Parallax>
     </footer>
   )
 }

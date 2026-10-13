@@ -8,6 +8,7 @@ import { SiteChrome } from '@/components/layout/site-chrome'
 import { SiteFooter } from '@/components/layout/site-footer'
 import { JsonLd, organizationJsonLd, websiteJsonLd } from '@/components/seo/json-ld'
 import { MotionProvider } from '@/components/providers/motion-provider'
+import { SmoothScroll } from '@/components/providers/smooth-scroll'
 import { env } from '@/lib/env'
 import { siteConfig } from '@/config/site'
 import { cn } from '@/lib/utils'
@@ -39,15 +40,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <JsonLd data={[organizationJsonLd(siteUrl), websiteJsonLd(siteUrl)]} />
         <MotionProvider>
           <ConsentProvider>
-            <SiteChrome />
-            <div className="lg:pl-[88px]">
-              <div id="main" tabIndex={-1} className="outline-none">
-                {children}
+            <SmoothScroll>
+              <SiteChrome />
+              <div className="lg:pl-[88px]">
+                <div id="main" tabIndex={-1} className="outline-none">
+                  {children}
+                </div>
+                <SiteFooter />
               </div>
-              <SiteFooter />
-            </div>
-            <ConsentBanner />
-            <Analytics />
+              <ConsentBanner />
+              <Analytics />
+            </SmoothScroll>
           </ConsentProvider>
         </MotionProvider>
       </body>

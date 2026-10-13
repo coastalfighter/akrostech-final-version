@@ -1,4 +1,6 @@
 import Link from 'next/link'
+import { Reveal3D } from '@/components/motion/reveal-3d'
+import { Tilt } from '@/components/motion/tilt'
 import { Button } from '@/components/ui/button'
 import { LinkCard } from '@/components/ui/card'
 import { Container, Section } from '@/components/ui/layout'
@@ -27,14 +29,17 @@ export function InsightsPreview() {
           </Button>
         </div>
         <div className="mt-16 grid gap-5 md:grid-cols-3">
-          {articles.map((a) => (
-            <LinkCard
-              key={a.slug}
-              href={`/insights/${a.slug}`}
-              eyebrow={a.tags[0]?.replace(/-/g, ' ')}
-              title={a.title}
-              description={a.excerpt}
-            />
+          {articles.map((a, i) => (
+            <Reveal3D key={a.slug} variant="flip" index={i}>
+              <Tilt className="h-full rounded-[var(--radius-card)]">
+                <LinkCard
+                  href={`/insights/${a.slug}`}
+                  eyebrow={a.tags[0]?.replace(/-/g, ' ')}
+                  title={a.title}
+                  description={a.excerpt}
+                />
+              </Tilt>
+            </Reveal3D>
           ))}
         </div>
       </Container>

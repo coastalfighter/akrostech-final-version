@@ -36,7 +36,6 @@ export default function BookPage() {
           </>
         }
         lead="Tell us what hurts most. We’ll tell you honestly whether we’re the right fix — and what it would cost."
-        word="Let's talk"
         crumbs={[{ label: 'Book a call' }]}
       />
       <Section tone="ink" className="pt-16 md:pt-24">

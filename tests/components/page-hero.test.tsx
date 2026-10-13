@@ -12,7 +12,6 @@ describe('PageHero', () => {
         eyebrow="Eyebrow"
         title="Test title"
         lead="Test lead."
-        word="Decor"
         crumbs={[{ label: 'Section', href: '/section' }, { label: 'Page' }]}
       >
         <Link href="/book">Book</Link>
@@ -23,8 +22,8 @@ describe('PageHero', () => {
     expect(screen.getByText('Test lead.')).toBeInTheDocument()
     expect(screen.getByRole('navigation', { name: 'Breadcrumb' })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Book' })).toBeInTheDocument()
-    // The decorative outline word is hidden from assistive tech.
-    expect(screen.getByText('Decor')).toHaveAttribute('aria-hidden', 'true')
+    // The 3D rings graphic is decorative and hidden from assistive tech.
+    expect(container.querySelector('.aspect-square')).toHaveAttribute('aria-hidden', 'true')
     await expectNoAxeViolations(container)
   })
 

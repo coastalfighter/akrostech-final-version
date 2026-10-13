@@ -5,6 +5,39 @@ brief is silent, we picked what a top-tier studio would ship and wrote down why.
 
 ---
 
+## Motion & layout pass — 3D scroll, smooth scroll (2026-10-13)
+
+Client asked to fix content and graphic placement, and to add 3D scroll-based animation with smooth
+scrolling.
+
+### Placement fixes
+
+- **Graphics get their own space.** The home hero is now two columns (copy | globe) instead of art
+  behind text; the live clock moved under the CTAs. Inner-page heroes put the 3D rings in a right
+  column and drop the giant outline word that collided with the lead. "Who we are" swaps the stray
+  orbit for a sticky graphic column. The CTA band anchors its arcs to the bottom-right corner, away
+  from the buttons. Industry badges sit on an even grid.
+
+### Motion
+
+- **Smooth scroll:** Lenis (`src/components/providers/smooth-scroll.tsx`) eases the native window
+  scroll, so sticky positioning, framer-motion `useScroll` and CSS scroll-driven animations keep
+  working. The menu pauses it while open.
+- **3D hero:** a WebGL globe (three.js + @react-three/fiber, lazy-loaded, never server-rendered) —
+  point-cloud sphere, fresnel glow, orbit rings, India → U.S. flight arcs with travelling packets.
+  On desktop the hero pins for 170svh: the globe spins, tilts and grows while the copy tips back in
+  perspective. Static SVG globe without WebGL or under reduced motion; rendering pauses off-screen.
+- **Scroll-scrubbed sequences:** the 24-hour handoff pins for three screens while a sun travels the
+  arc and the sky shifts dusk → night → dawn; the process steps deal as a 3D card stack.
+- **Section motion kit** (`src/components/motion/`): `Reveal3D` (tilt / flip / zoom, scrubbed by
+  scroll), `Parallax`, pointer `Tilt`, `Magnetic`, `CountUp`, `ScrollSkew` (marquees lean with
+  scroll velocity) and CSS-3D `Rings3D`.
+- **Never hide content behind JS:** every scroll effect only takes over after mount, so
+  server-rendered HTML is always in its final readable state. Everything is off under
+  `prefers-reduced-motion`; Playwright's axe scans run with reduced motion.
+
+---
+
 ## Redesign — Bold editorial rebuild (2026-10-13)
 
 The client rejected the M0–M6 visual design outright ("not a single thing"), asked for a full
